@@ -23,3 +23,14 @@
 
    }
  })
+
+
+ Factory.blueprint('App/Models/Token', (faker,i,data={}) => {
+  return {
+    type: data.type||'refreshtoken',
+    Token: faker.string({ lengt:20 }),
+    ...data
+
+  }
+})
+
