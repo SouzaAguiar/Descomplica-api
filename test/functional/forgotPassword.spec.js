@@ -9,6 +9,7 @@ const  User = use('App/Models/User');
 
 trait('Test/ApiClient')
 trait('DatabaseTransactions')
+
 const Mail = use('Mail')
 const Hash = use('Hash')
 const Database = use('Database');
@@ -84,15 +85,15 @@ test('it cannot reset passworld after 2h of forgot request',async ({assert,clien
 
   const dateWithSub = format(subHours(new Date(),5,),'yyyy-MM-dd HH:ii:ss');
 
-
+  
    await Database 
    .table('tokens') 
    .where('token', Usertoken.Token) 
    .update('created_at',dateWithSub) 
-
+   
    await Usertoken.reload();
 
-
+ 
    const response = await client.post('/reset')
   .send({
     token: Usertoken.token,
@@ -100,6 +101,7 @@ test('it cannot reset passworld after 2h of forgot request',async ({assert,clien
     password_confirmation:'123456'
   })
   .end();
+
 //console.log(response)
   response.assertStatus(400);
 

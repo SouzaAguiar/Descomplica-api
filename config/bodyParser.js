@@ -31,7 +31,7 @@ module.exports = {
     | Object. Otherwise everything parseable by `JSON.parse` is parsed.
     |
     */
-    strict: true,
+    strict:false,
 
     /*
     |--------------------------------------------------------------------------

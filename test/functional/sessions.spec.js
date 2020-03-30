@@ -22,7 +22,6 @@ const response = await client
 .post('/sessions')
 .send(sessinsPayload)
 .end()
-
 response.assertStatus(200);
 assert.exists(response.body.token);
 });

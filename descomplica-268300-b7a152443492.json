@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "descomplica-268300",
+  "private_key_id": "b7a152443492e903c514e649080723a1e3dd718e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC9exK9t7mtzvzy\nQoaRI5mkn0p2dm5LjBT8S+jr1dMj0lY626cyDxSDfOMEHRiwNxPPXJKzpZq9+UNR\n9nK3ieqKkGRL2XzEYr0Ae58eNbDnlNQmvQoHaE0XL4eBRyDuGSx1mgTEfEfoatdi\niAIdjg5rU4hc8Wo18NIWf95o2WErcFdg8bRCCDfpoRRP696hAY3ai3TnjpKT/PhA\n8LJhW52WGqoBv33FikblTioV1uAHNYp9YnNyhibStoynUvChnWoK4FECHkWW/dWI\njnWKft6q/0Btlu/enolbQ7YZLArLv1mgSG7BSHYNZfPW2WqvyHSQri7XsS0LqKAa\nr2YzxWmnAgMBAAECggEAMVNLFykvRHBIR7aKuli2o/S1mS4OW0tNoToPmekRbFdS\njELm/PCRCgOmQ0lhxmmoFgiGxg5bwI2VeU47Ic1cyZJ6EYa95I/BnNERpHccpMSJ\nD8aRSEleHCWK1FwUVfcmrDyadh3WSEob5LH8Pv5egZD+xBcya3VT83h5CPlhwsEq\nr0aasJB9ifN8vhphiHbxq761zILFnPgJXuTg52Crpyr7+G3/fHpmm2v8pHOFuwB4\np52qBNlVTdDM+Zsx/hrBx4uNVlGdu4OU0ehxDadH30zzXVaI3GOFfpZY+vAHMwP8\nlYscZ/DWRpPYhW96dv5kE7JZyuJI44OJv/g9euwrOQKBgQDl/ly99nJuQjI7bbyX\nBo0Dm7UKRX9HbogYTZ2cZQeD4QsADPWTlyw6t6nXNe7nMN7t2BSfYf49V7JPfwF9\nfyTlgQRKZ2tuY5kzzRnHtdAxtIvi3R+sw2/AVo1eskYdO4ifPC597JLrKmTrkBzO\n5kLUAuXvO3E1HfilcCvRMifgbwKBgQDS5/u2VQVUNwjUdoyHYt40x3x5L1tzooRZ\nCavgQUE7C1NGuBmK1FvqX60SKDy/+znjoKexnpMPC1wRmwwMVeP+7Pr2E+fU3Y6v\n3CnmbByuFFJUHTQHAMwoBgrpNJHhbFzwGjv1c6humlDh19yYFrofYNtpGrT4GqMj\nWHysPWE2SQKBgA2t9WIvGFtKgKZcPo1VDGochsYXoBxljJ61bxxwPeQwLHFSVAD1\nSuIrLmTohk8l7vyCj6dzMqX/Y1GrIjGOsGkeJV0vjYpBTklwd4oTXFC4hmF1+X5T\nGYB9JWdufxEaC2Q9Nh6zRYHLQblpFu2PcIYfrgFurasVH0bnxxNoQkrtAoGACrnb\nllFKnRbTbyK8UOJZVKvUi8E50G6ydmjEgfovnBYeXRldyy6zof7NqX+8XzMipY31\nGVZsOjakrwyIl1QC7WMV/E/U2YGPESiMRPi4mK3V5gs6KyUCPQLZqTSQOrutGlTr\nObdxGHbmqCW3RVDalF/zqKvACmIoa9LDPGs+t2kCgYAfFWDfF5Hv3+aN87+bmuhX\nLjXFPvP9mdYi+ReGFxcZleH6/r9vN9VSSxN3fqIil3B4xWGcRqU8QFaSgWqsiKOB\ncXtyywSPfw559L6tdgxYdyzzb32HlTccPdDsYp5evNyfVWLck4s+f45BPE2+4+zi\nF7iY/1kjdOELsQJ8qskqUw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "imagesbucket@descomplica-268300.iam.gserviceaccount.com",
+  "client_id": "107134673833622760362",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/imagesbucket%40descomplica-268300.iam.gserviceaccount.com"
+}
