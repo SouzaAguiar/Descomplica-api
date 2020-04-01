@@ -17,11 +17,9 @@ class AppealsSchema extends Schema {
       table.string('assessmentNumber').notNullable()
       table.string('notificationNumber').notNullable()
       table.string('taxing_entity').notNullable()
-      table.string('contestation_type').notNullable()
       table.string('inconsistencies')
       table.string('ticketPhotoUri').notNullable()
-
-
+      table.string('contestation').notNullable()
       table.timestamps()
     })
   }

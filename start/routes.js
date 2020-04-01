@@ -26,6 +26,9 @@ Route.get('/ApealsReason','AppealsReasonController.index')
 
 Route.post('/Appeals/create','AppealController.store')
 
+Route.post('/Contestation/create','ContestationController.store')
+Route.get('/Contestations','ContestationController.index')
+
 
 Route.post('/ApealsType/create','AppealsTypeController.store')
 Route.get('/ApealsType','AppealsTypeController.show')
