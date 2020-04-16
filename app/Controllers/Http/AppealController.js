@@ -15,10 +15,7 @@ const  Conductor = use('App/Models/Conductor');
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  AppealsType = use('App/Models/AppealsType');
 
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const  User = use('App/Models/User')
-
-const db = use('Database')
+const UploadSevice = use('Adonis/Services/UploadImage')
 
 
 
@@ -35,27 +32,53 @@ class AppealController {
    * @param {Request} ctx.request
    * @param {View} ctx.view
    */
-    async store({request,response}){
+    async store({request, auth }){
 
-        const data = request.only([
-        'type_id',
-        'defence_type_id',
-        'user_id',
-        'assessmentNumber',
-        'notificationNumber',
-        'taxing_entity',
-        'ticketPhotoUri',
-        'vehicle_id',
-        'conductor_id',
-        'contestation_type',
-        'reasons',
-        'inconsistencies'
-        ])
-        data.inconsistencies =data.inconsistencies.toString()
-        data.reasons = data.reasons.toString();
-    await Appeal.create(data);
+      const { appeal ,signature } = request.only(['appeal','signature'])
+      const appealObj = JSON.parse(appeal)
+      const user = await auth.user
 
- response.status(201).send('ok');
+      const  signaturePath = await UploadSevice.uploadBase64(signature)
+      appealObj.signaturePath = signaturePath
+
+      
+
+      const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
+      const ticketPhotoUri = await UploadSevice.upload(ticketImage)
+      appealObj.ticketPhotoUri = ticketPhotoUri
+     
+
+      if(!appealObj.conductorId){
+      const { conductor } = appealObj  
+      const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
+      const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
+      conductor.docmentImgUrl = conductorDocImagePath
+
+  const conductorCreated =  await user.conductors().create(conductor)
+  
+      delete appealObj.conductor
+      appealObj.conductorId = conductorCreated.id
+      }
+
+      
+      if(!appealObj.vehicleId){
+        const { vehicle } = appealObj  
+        const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+        const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
+        vehicle.url_img_docment = vehicleDocImagePath
+  
+    const vehicleCreated =  await user.vehicles().create(vehicle)
+    
+        delete appealObj.vehicle
+        appealObj.vehicleId = vehicleCreated.id
+        }
+appealObj.contestations = JSON.stringify(appealObj.contestations)
+appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
+appealObj.historic = JSON.stringify(appealObj.historic)
+
+ const resp = await  user.appeals().create(appealObj)
+ 
+  
     
 }
 
@@ -66,17 +89,18 @@ async index({auth}){
  const data = await Promise.all( appeals.rows.map(async(i)=>{
   const item = i.$originalAttributes
   
-  item['vehicle'] = await Vehicles.findBy('id',item.vehicle_id)
-  item['conductor']= await Conductor.findBy('id',item.conductor_id)
-  const type = await AppealsType.findBy('id',item.type_id)
-  item['type']=type.type
+  item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
+  item['conductor']= await Conductor.findBy('id',item.conductorId)
+  const type = await AppealsType.findBy('id',item.typeId)
+  item['type']=type
 
-  item.reasons = item.reasons.split(',')
-  item.inconsistencies = item.inconsistencies.split(',')
+  item.inconsistencies = JSON.parse(item.inconsistencies)
+  item.contestations = JSON.parse(item.contestations)
+  item.historic = JSON.parse(item.historic)
   return item
 })
  )
-
+console.log(data[0].description)
  
  return data
 

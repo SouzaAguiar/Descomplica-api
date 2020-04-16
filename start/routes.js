@@ -47,8 +47,20 @@ Route.group(()=>{
   Route.get('/images','ImageController.index')
 
   Route.post('/user/update','UserController.update')
+  Route.post('/user/avatar','UserController.saveAvatar')
+
+  
   
   Route.get('appeals','AppealController.index')
+
+  Route.post('CreditCard/create','CreditCardController.store')
+  Route.get('CreditCards','CreditCardController.show')
+
+  Route.delete('/CreditCard','CreditCardController.delete')
+
+  Route.post('Payment/create','PaymentController.store')
+  Route.post('CreditCard/createAndPay','PaymentController.createAndPay')
+
 
 }).middleware('auth')
 
@@ -58,4 +70,4 @@ Route.get('/', () => {
     return {'Descomplica api':'Bem vindo!'}
   });
 
-  
+   

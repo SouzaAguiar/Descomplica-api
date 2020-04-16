@@ -11,6 +11,9 @@ const User = use("App/Models/User");
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Token = use("App/Models/Token");
 
+const UploadSevice = use('Adonis/Services/UploadImage')
+
+
 class UserController {
 
   
@@ -78,13 +81,12 @@ class UserController {
   }
 
   async show({auth}){
-    //const user = await User.findByOrFail('id',params.id)
+    
     const user = auth.user
-    //const images = await user.images().fetch()
+   
  user['vehicles']=await  user.vehicles().fetch()
  user['conductors']=await user.conductors().fetch()
 
- // return {user,images}
   return auth.user
   
   }
@@ -100,6 +102,18 @@ async update({request,auth}){
 
   
   
+}
+
+async saveAvatar({ auth,request }){
+  
+  const user = await auth.user
+  const avatar = request.file('avatar',{type:['image'],size:'4mb'})
+  
+    const  UrlImg = await UploadSevice.upload(avatar)
+   
+  user.merge({UrlImg})
+  await user.save();
+
 }
 }
 

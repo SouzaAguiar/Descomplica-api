@@ -14,7 +14,6 @@ class UserSchema extends Schema {
       table.string('state')
       table.string('city')
       table.string('UrlImg')
-
       table.timestamps()
     })
   }
