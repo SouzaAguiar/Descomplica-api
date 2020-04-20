@@ -52,7 +52,9 @@ class User extends Model {
   appeals() {
     return this.hasMany('App/Models/Appeal')
   }
-
+  messages(){
+    return this.hasMany('App/Models/Messages')
+  }
 
 }
 

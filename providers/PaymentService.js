@@ -1,7 +1,9 @@
 'use strict'
 const mercadopago = require('mercadopago')
+const axios = require('axios')
 
-
+var getPaymentMethodsApi;
+var getInstallmentsBaseApi;
 
 class PaymentService {
 
@@ -9,6 +11,9 @@ class PaymentService {
    const paymentConfig =config._config.payment
 
     mercadopago.configure(paymentConfig);
+
+    getPaymentMethodsApi =`https://api.mercadopago.com/v1/payment_methods?access_token=${paymentConfig.access_token}&js_version=1.6.18`
+    getInstallmentsBaseApi =`https://api.mercadopago.com/v1/payment_methods/installments?access_token=${paymentConfig.access_token}&js_version=1.6.18&`
   
   }
  
@@ -43,7 +48,9 @@ async createCreditCard(user,params){
   const customer_id = data.response.results[0].id
   cardParams.customer_id = customer_id
 
-  const cardData = await mercadopago.card.create(cardParams)
+    const cardData = await mercadopago.card.create(cardParams)
+  
+  
 
   return cardData.response
 
@@ -81,7 +88,7 @@ try {
   }
   return {isSuccess:false,data:{paymentStatus:resp.response.status}}
 } catch (error) {
-
+  console.log(error)
   return {isSuccess:false,data:error}
 
 }
@@ -97,7 +104,7 @@ async createCredidCardAndPay(user,params,payment){
   const pay = payment
 
   pay.payment_method_id=card.payment_method.id
-  pay.installments= 1
+ // pay.installments= 1
   pay.issuer_id=card.issuer.id.toString()
   pay.payer={email:user.email}
 
@@ -127,6 +134,33 @@ async deleteCard(user,id){
     }else{
       return null
     }
+
+  }
+
+  async getInstallments(bin,amount){
+
+
+ 
+  const { data } = await axios.get(getPaymentMethodsApi)
+  let payment_methodsName ='';
+
+  await data.map((item)=>{
+    if(item.settings[0]){
+      
+    let regex = new RegExp(item.settings[0].bin.pattern)
+   if( regex.test(bin)){
+     payment_methodsName = item.id
+  }
+    }
+
+   })
+
+if(payment_methodsName !== ''){
+  const url = getInstallmentsBaseApi +'payment_method_id='+ payment_methodsName +'&amount='+amount
+
+  const { data } = await axios.get(url)
+  return data[0].payer_costs
+}
 
   }
 

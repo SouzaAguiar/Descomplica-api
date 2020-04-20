@@ -14,6 +14,8 @@ class UserSchema extends Schema {
       table.string('state')
       table.string('city')
       table.string('UrlImg')
+      table.boolean('hasAcceptTheTerms').defaultTo(false)
+      table.enum('ruler',['ADMIN','USER']).defaultTo('USER')
       table.timestamps()
     })
   }

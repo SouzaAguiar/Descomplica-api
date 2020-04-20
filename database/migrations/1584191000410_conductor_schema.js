@@ -8,9 +8,10 @@ class ConductorSchema extends Schema {
     this.create('conductors', (table) => {
       table.increments()
       table.integer('user_id').unsigned().references('id').inTable('users')
-      table.boolean('is_individual')
+      table.string('personType')
       table.string('conductor_name').notNullable()
       table.string('conductor_docment_number').notNullable()
+      table.string('docmentImgUri')
       table.timestamps()
     })
   }

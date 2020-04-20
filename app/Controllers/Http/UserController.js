@@ -20,7 +20,7 @@ class UserController {
   async forgotPasswor({ request, auth }) {
     const email = request.input("email")
   
-
+console.log('forgotPasswor')
     const user = await User.findByOrFail("email", email)
 
     const { token } = await await auth.generate(user)
@@ -34,27 +34,29 @@ class UserController {
   
     await Mail.send(
       "emails.forgotPassword",
-      { name: user.name,forgotPasswordUrl:forgotPasswordUrl },
+      { name: user.name,forgotPasswordUrl },
       message => {
         message
           .to(user.email)
-          .from("descomplicar@gmail.com")
-          .subject("Descomplicar-Recuperação de senha");
+          .from("descomplica@gmail.com")
+          .subject("Descomplica-Recuperação de senha");
       }
     );
   }
 
   async register({ request }) {
-    const { email, password, name, gender, state, city } = request.only([
+    const { email, password, name, gender, state, city,ruler } = request.only([
       "email",
       "password",
       "name",
       "gender",
       "state",
-      "city"
+      "city",
+      "ruler"
     ]);
-
-    await User.create({ email, password, name, gender, state, city });
+    
+    await User.create({ email, password, name, gender, state, city,ruler });
+  
   }
 
   async resetPassword({ request, response }) {
@@ -95,13 +97,9 @@ class UserController {
 async update({request,auth}){
 
   const data = request.all()
-  console.log(data)
   const user = auth.user
   user.merge(data)
   await user.save();
-
-  
-  
 }
 
 async saveAvatar({ auth,request }){
@@ -113,6 +111,11 @@ async saveAvatar({ auth,request }){
    
   user.merge({UrlImg})
   await user.save();
+
+}
+async getMenssages({ auth }){
+  const user = await auth.user
+  return await user.messages().fetch()
 
 }
 }

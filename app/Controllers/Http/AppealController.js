@@ -33,11 +33,11 @@ class AppealController {
    * @param {View} ctx.view
    */
     async store({request, auth }){
-
+    
       const { appeal ,signature } = request.only(['appeal','signature'])
       const appealObj = JSON.parse(appeal)
       const user = await auth.user
-
+     
       const  signaturePath = await UploadSevice.uploadBase64(signature)
       appealObj.signaturePath = signaturePath
 
@@ -46,47 +46,53 @@ class AppealController {
       const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
       const ticketPhotoUri = await UploadSevice.upload(ticketImage)
       appealObj.ticketPhotoUri = ticketPhotoUri
-     
+      
 
       if(!appealObj.conductorId){
+        
       const { conductor } = appealObj  
       const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
       const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
-      conductor.docmentImgUrl = conductorDocImagePath
-
-  const conductorCreated =  await user.conductors().create(conductor)
+      conductor.docmentImgUri = conductorDocImagePath
+   
+      const conductorCreated =  await user.conductors().create(conductor)
   
       delete appealObj.conductor
       appealObj.conductorId = conductorCreated.id
       }
 
-      
+  
       if(!appealObj.vehicleId){
+
         const { vehicle } = appealObj  
         const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+
         const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
         vehicle.url_img_docment = vehicleDocImagePath
   
-    const vehicleCreated =  await user.vehicles().create(vehicle)
+       
+          const vehicleCreated =  await user.vehicles().create(vehicle)
+        
+       
     
         delete appealObj.vehicle
         appealObj.vehicleId = vehicleCreated.id
         }
-appealObj.contestations = JSON.stringify(appealObj.contestations)
-appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
-appealObj.historic = JSON.stringify(appealObj.historic)
-
- const resp = await  user.appeals().create(appealObj)
- 
-  
+         appealObj.contestations = JSON.stringify(appealObj.contestations)
+         appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
+         appealObj.historic = JSON.stringify(appealObj.historic)
+        
+       await  user.appeals().create(appealObj)
+        
+        
     
 }
 
-async index({auth}){
+  async index({auth}){
   const  user = auth.user
   const appeals= await user.appeals().fetch()
 
- const data = await Promise.all( appeals.rows.map(async(i)=>{
+  const data = await Promise.all( appeals.rows.map(async(i)=>{
   const item = i.$originalAttributes
   
   item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
@@ -100,15 +106,8 @@ async index({auth}){
   return item
 })
  )
-console.log(data[0].description)
- 
+
  return data
-
-
-  
-
- 
-
   
 }
 

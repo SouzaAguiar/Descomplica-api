@@ -38,6 +38,12 @@ class PaymentController {
         
        
         }
+        async getInstallments({ request }){
+         const { bin, amount } =request.all();
+         
+     const payer_costs = await Payment.getInstallments(bin,amount)
+     return payer_costs
+        }
 
 
     

@@ -86,7 +86,6 @@ class ImageController {
       .map(image => user.images().create({ path: image.fileName }))
   )
 
-
   }
 
   /**

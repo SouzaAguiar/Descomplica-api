@@ -21,46 +21,50 @@ Route.post('/forgot','UserController.forgotPasswor');
 Route.post('/reset','UserController.resetPassword');
 Route.post('/register','UserController.register').validator('StoreUser');
 
-Route.post('/ApealsReason/create','AppealsReasonController.store')
-Route.get('/ApealsReason','AppealsReasonController.index')
-
-Route.post('/Appeals/create','AppealController.store')
-
-Route.post('/Contestation/create','ContestationController.store')
-Route.get('/Contestations','ContestationController.index')
 
 
-Route.post('/ApealsType/create','AppealsTypeController.store')
-Route.get('/ApealsType','AppealsTypeController.show')
+Route.post('/App/Params/price','AppParamController.upDatePrice').middleware('authAdmin')
+Route.post('/App/Params/init','AppParamController.appInitParams').middleware('authAdmin')
+Route.post('/App/Params/deadline','AppParamController.upDateDeadLine').middleware('authAdmin')
 
-
-Route.post('/Conductor/create','ConductorController.store')
-
-Route.post('/Vehicle/create','VehicleController.store')
-
-
+Route.post('Payment/installments','PaymentController.getInstallments')
 
 Route.group(()=>{
-  Route.post('/appeals','AppealController.store');
-  Route.post('/image/upload','ImageController.store')
-  Route.get('/user','UserController.show')
-  Route.get('/images','ImageController.index')
 
+  Route.get('/images','ImageController.index')
+  Route.post('/image/upload','ImageController.store')
+
+  Route.get('/user','UserController.show')
   Route.post('/user/update','UserController.update')
   Route.post('/user/avatar','UserController.saveAvatar')
+  Route.post('/user/menssage','UserController.store')
+  Route.get('/user/menssages','UserController.getMenssages')
 
-  
-  
+
+  Route.post('/appeals','AppealController.store');
+  Route.post('/Appeals/create','AppealController.store')
+
   Route.get('appeals','AppealController.index')
+  Route.post('/ApealsType/create','AppealsTypeController.store')
+  Route.get('/ApealsType','AppealsTypeController.show')
+  Route.post('/ApealsReason/create','AppealsReasonController.store')
+  Route.get('/ApealsReason','AppealsReasonController.index')
+
+  Route.post('/Contestation/create','ContestationController.store')
+  Route.get('/Contestations','ContestationController.index')
+
+  Route.post('/Conductor/create','ConductorController.store')
+  Route.post('/Vehicle/create','VehicleController.store')
 
   Route.post('CreditCard/create','CreditCardController.store')
   Route.get('CreditCards','CreditCardController.show')
-
   Route.delete('/CreditCard','CreditCardController.delete')
 
   Route.post('Payment/create','PaymentController.store')
   Route.post('CreditCard/createAndPay','PaymentController.createAndPay')
+ 
 
+  Route.get('/App/Params','AppParamController.show')
 
 }).middleware('auth')
 
