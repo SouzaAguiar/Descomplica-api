@@ -3,6 +3,8 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
+const Env = use('Env')
+
 class Appeal extends Model {
 
     user(){
@@ -16,7 +18,9 @@ class Appeal extends Model {
 }         
 conductor(){
     return this.hasOne('App/Models/Conductor')
-}        
+}   
+
+
 }
 
 module.exports = Appeal

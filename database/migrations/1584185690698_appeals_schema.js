@@ -17,7 +17,7 @@ class AppealsSchema extends Schema {
       table.string('taxingOrgan').notNullable()
       table.string('inconsistencies',2048)
       table.string('ticketPhotoUri').notNullable()
-      table.string('signaturePath').notNullable()
+      table.string('signaturePath')
       table.string('contestations',2048).notNullable()
       table.string('paymentId').notNullable()
       table.string('paymentStatus').notNullable()

@@ -8,7 +8,7 @@ class ContestationSchema extends Schema {
     this.create('contestations', (table) => {
       table.increments()
       table.string('descripton').notNullable()
-      table.string('items').notNullable()
+      table.string('items',1024).notNullable()
       table.timestamps()
     })
   }

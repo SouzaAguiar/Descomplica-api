@@ -7,6 +7,10 @@
 const  Appeal = use('App/Models/Appeal');
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const  User = use('App/Models/User');
+
+
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  Vehicles = use('App/Models/Vehicle');
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
@@ -34,16 +38,18 @@ class AppealController {
    */
     async store({request, auth }){
     
-      const { appeal ,signature } = request.only(['appeal','signature'])
+      const { appeal } = request.only(['appeal'])
       const appealObj = JSON.parse(appeal)
       const user = await auth.user
      
-      const  signaturePath = await UploadSevice.uploadBase64(signature)
-      appealObj.signaturePath = signaturePath
+    //  const  signaturePath = await UploadSevice.uploadBase64(signature)
+     // appealObj.signaturePath = signaturePath
+
 
       
-
+      
       const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
+    
       const ticketPhotoUri = await UploadSevice.upload(ticketImage)
       appealObj.ticketPhotoUri = ticketPhotoUri
       
@@ -52,6 +58,7 @@ class AppealController {
         
       const { conductor } = appealObj  
       const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
+
       const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
       conductor.docmentImgUri = conductorDocImagePath
    
@@ -71,10 +78,8 @@ class AppealController {
         vehicle.url_img_docment = vehicleDocImagePath
   
        
-          const vehicleCreated =  await user.vehicles().create(vehicle)
+        const vehicleCreated =  await user.vehicles().create(vehicle)
         
-       
-    
         delete appealObj.vehicle
         appealObj.vehicleId = vehicleCreated.id
         }
@@ -82,10 +87,32 @@ class AppealController {
          appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
          appealObj.historic = JSON.stringify(appealObj.historic)
         
+
        await  user.appeals().create(appealObj)
         
         
     
+}
+
+async getAll(){
+
+ const  appeals = await Appeal.all()
+
+ const data = await Promise.all(
+
+  appeals.rows.map(async(i)=>{
+  const item = i.$originalAttributes
+ let  user = await User.findBy('id',item.user_id)
+  item['userName'] = user.name
+  const type = await AppealsType.findBy('id',item.typeId)
+  item['type']=type
+  item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
+  item['conductor']= await Conductor.findBy('id',item.conductorId)
+  return item
+  }
+ )
+ )
+return data;
 }
 
   async index({auth}){

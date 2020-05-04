@@ -1,6 +1,7 @@
 "use strict";
 const { isBefore, subHours, parseISO } = require("date-fns");
 const Mail = use("Mail");
+const axios = require('axios')
 
 /** @type {import('@adonisjs/framework/src/Env')} */
 const Env = use("Env");
@@ -12,6 +13,8 @@ const User = use("App/Models/User");
 const Token = use("App/Models/Token");
 
 const UploadSevice = use('Adonis/Services/UploadImage')
+
+const SingSevice = use('Adonis/Services/Sing')
 
 
 class UserController {
@@ -45,6 +48,21 @@ console.log('forgotPasswor')
   }
 
   async register({ request }) {
+    const { email, password, name, gender, state, city } = request.only([
+      "email",
+      "password",
+      "name",
+      "gender",
+      "state",
+      "city"
+    ]);
+    
+    await User.create({ email, password, name, gender, state, city });
+  
+  }
+
+
+  async adminRegister({ request }) {
     const { email, password, name, gender, state, city,ruler } = request.only([
       "email",
       "password",
@@ -52,7 +70,7 @@ console.log('forgotPasswor')
       "gender",
       "state",
       "city",
-      "ruler"
+      'ruler'
     ]);
     
     await User.create({ email, password, name, gender, state, city,ruler });
@@ -60,6 +78,7 @@ console.log('forgotPasswor')
   }
 
   async resetPassword({ request, response }) {
+    
     const data = request.only(["token", "password"]);
 
     const userToken = await Token.findByOrFail("token", data.token);
@@ -77,6 +96,7 @@ console.log('forgotPasswor')
   }
 
   async store({ request, auth }) {
+    
     const { email, password } = request.only(["email", "password"]);
     const { token } = await auth.attempt(email, password);
     return { token };
@@ -102,7 +122,7 @@ async update({request,auth}){
   await user.save();
 }
 
-async saveAvatar({ auth,request }){
+async saveAvatar({ auth, request }){
   
   const user = await auth.user
   const avatar = request.file('avatar',{type:['image'],size:'4mb'})
@@ -118,7 +138,40 @@ async getMenssages({ auth }){
   return await user.messages().fetch()
 
 }
+
+async index(){
+  return await User.all();
 }
 
+async delete({ params }){
+  
+  const user = await User.findBy('id',params.id)
+   await user.delete()
+}
 
+ async sing({ auth, request }){
+
+  const singData = request.all()
+  const user = await auth.user
+
+ 
+  const response = await  SingSevice.sing(user,singData)
+
+if(response.isSuccess){
+
+ if(!user.signer){
+   
+  user.merge({signer:response.signer_key})
+  await user.save()
+ }
+ delete response.signer_key
+ 
+  }
+  
+  return response
+
+
+}
+
+}
 module.exports = UserController;

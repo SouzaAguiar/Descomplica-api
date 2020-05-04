@@ -56,13 +56,16 @@ async createCreditCard(user,params){
 
   }else{
 
-const {name,email}=user
-const {identification,token } = params
+const { name , email }=user
+const { identification, token } = params
 
 const TempName = name.split(' ');
-const [first_name,...temp_last_name]= TempName
-let last_name =temp_last_name.join()
-last_name=last_name.replace(',','')
+const [first_name,midName,last_name]= TempName
+
+//let last_name =temp_last_name.join()
+//last_name=last_name.replace(',',' ')
+
+//console.log(first_name)
 
 const customerData ={email,first_name,last_name,identification}
 
@@ -98,23 +101,23 @@ try {
 
 async createCredidCardAndPay(user,params,payment){
 
-
-  const card = await this.createCreditCard(user,params)
  
+  const card = await this.createCreditCard(user,params)
   const pay = payment
 
   pay.payment_method_id=card.payment_method.id
- // pay.installments= 1
+
   pay.issuer_id=card.issuer.id.toString()
   pay.payer={email:user.email}
 
 const paymentResponse = await this.createPayment(pay)
+
 return {card,paymentResponse}
 
 }
 
 async deleteCard(user,id){
-
+  
   const customer_id = await this.getCustomerId(user)
   if(customer_id){
 

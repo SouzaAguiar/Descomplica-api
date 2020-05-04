@@ -26,6 +26,15 @@ Route.post('/register','UserController.register').validator('StoreUser');
 Route.post('/App/Params/price','AppParamController.upDatePrice').middleware('authAdmin')
 Route.post('/App/Params/init','AppParamController.appInitParams').middleware('authAdmin')
 Route.post('/App/Params/deadline','AppParamController.upDateDeadLine').middleware('authAdmin')
+Route.get('/users','UserController.index').middleware('authAdmin')
+
+Route.post('/user/admin','UserController.adminRegister').middleware('authAdmin').validator('StoreUser');
+Route.delete('/user/:id','UserController.delete').middleware('authAdmin')
+
+Route.get('/appeals/all','AppealController.getAll').middleware('authAdmin')
+
+Route.post('/ApealsType/create','AppealsTypeController.store').middleware('authAdmin')
+
 
 Route.post('Payment/installments','PaymentController.getInstallments')
 
@@ -40,12 +49,13 @@ Route.group(()=>{
   Route.post('/user/menssage','UserController.store')
   Route.get('/user/menssages','UserController.getMenssages')
 
+  Route.post('/user/sing','UserController.sing')
+
 
   Route.post('/appeals','AppealController.store');
   Route.post('/Appeals/create','AppealController.store')
 
   Route.get('appeals','AppealController.index')
-  Route.post('/ApealsType/create','AppealsTypeController.store')
   Route.get('/ApealsType','AppealsTypeController.show')
   Route.post('/ApealsReason/create','AppealsReasonController.store')
   Route.get('/ApealsReason','AppealsReasonController.index')
@@ -62,8 +72,6 @@ Route.group(()=>{
 
   Route.post('Payment/create','PaymentController.store')
   Route.post('CreditCard/createAndPay','PaymentController.createAndPay')
- 
-
   Route.get('/App/Params','AppParamController.show')
 
 }).middleware('auth')

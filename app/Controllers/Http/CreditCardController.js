@@ -20,7 +20,7 @@ class CreditCardController {
 
       /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
       const user = await auth.user
-      const {card_id} = request.only(['card_id'])
+      const { card_id } = request.only(['card_id'])
       await Payment.deleteCard(user,card_id)
 
       console.log('deleted')
