@@ -5,7 +5,11 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const constestation = use("App/Models/Contestation");
+const Constestation = use("App/Models/Contestation");
+
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Option = use("App/Models/Option");
+
 
 /**
  * Resourceful controller for interacting with contestations
@@ -21,27 +25,18 @@ class ContestationController {
    * @param {View} ctx.view
    */
   async index ({ request, response }) {
-    const contestations = await constestation.all()
 
-    const data = Promise.all( contestations.rows.map(async(i)=>{
-      const item = i.$originalAttributes
-      
-      item.items=JSON.parse(item.items)
-      return item
-    }
+    const contestations = await Constestation.all()
+    // await Promise.all(
+     
+    //   contestations.rows.map( async constestation =>{
+    //   const temp = constestation
+    //   temp.options = await constestation.options().fetch()
+    //   return temp
+    //   })
 
-
-    )
-
-    )
-
-    
-    return data
-
-      
-    
-    
-
+    // )
+    return contestations
   }
 
 
@@ -54,8 +49,11 @@ class ContestationController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const {descripton,items} = request.only(['descripton','items'])
-   await constestation.create({descripton,items:JSON.stringify(items)})
+  const { options,...data } = request.all()
+ 
+  const contestation = await Constestation.create(data)
+  await contestation.options().attach(options)
+ 
 
   }
 
@@ -81,7 +79,15 @@ class ContestationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ params , request }) {
+  const {options,...constestationData} = request.all()
+  
+  const constestation = await Constestation.findBy('id',params.id)
+
+  constestation.merge(constestationData)
+  await constestation.options().attach(options)
+  await constestation.save()
+
   }
 
   /**
@@ -94,6 +100,17 @@ class ContestationController {
    */
   async destroy ({ params, request, response }) {
   }
+
+  async createOptions({ request }){
+    const option = request.all();
+   console.log(option)
+    return await Option.create(option)
+
+  
+  }
 }
+
+
+
 
 module.exports = ContestationController

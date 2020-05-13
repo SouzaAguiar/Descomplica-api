@@ -1,4 +1,5 @@
 'use strict'
+const pdf =  use('Adonis/Services/PdfCreator')
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route.group(()=>{
 
   Route.post('/user/sing','UserController.sing')
 
+  Route.post('/Contestation/option/create','ContestationController.createOptions')
+  Route.post('/Contestation/update/:id','ContestationController.update')
+
 
   Route.post('/appeals','AppealController.store');
   Route.post('/Appeals/create','AppealController.store')
@@ -60,11 +64,17 @@ Route.group(()=>{
   Route.post('/ApealsReason/create','AppealsReasonController.store')
   Route.get('/ApealsReason','AppealsReasonController.index')
 
+  Route.post('/ApealsType/update/:id','AppealsTypeController.update')
+
   Route.post('/Contestation/create','ContestationController.store')
   Route.get('/Contestations','ContestationController.index')
 
   Route.post('/Conductor/create','ConductorController.store')
+
+  
   Route.post('/Vehicle/create','VehicleController.store')
+  Route.delete('/Vehicle/delete/:id','VehicleController.destroy')
+  Route.post('/Vehicle/update','VehicleController.update')
 
   Route.post('CreditCard/create','CreditCardController.store')
   Route.get('CreditCards','CreditCardController.show')
@@ -76,10 +86,12 @@ Route.group(()=>{
 
 }).middleware('auth')
 
-
-
 Route.get('/', () => {
     return {'Descomplica api':'Bem vindo!'}
   });
 
    
+  Route.get('/pdf',() =>{
+     pdf.generatePdf();
+    return {'result':'ok'}
+  })

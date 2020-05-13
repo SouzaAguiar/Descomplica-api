@@ -43,76 +43,57 @@ class AppealController {
       const user = await auth.user
      
     //  const  signaturePath = await UploadSevice.uploadBase64(signature)
-     // appealObj.signaturePath = signaturePath
+    // appealObj.signaturePath = signaturePath
 
 
-      
-      
       const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
     
       const ticketPhotoUri = await UploadSevice.upload(ticketImage)
       appealObj.ticketPhotoUri = ticketPhotoUri
       
 
-      if(!appealObj.conductorId){
+     // if(!appealObj.conductorId){
         
-      const { conductor } = appealObj  
-      const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
-
-      const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
-      conductor.docmentImgUri = conductorDocImagePath
+    //  const { conductor } = appealObj  
+    //  const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
+    //  const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
+      
+    //  conductor.docmentImgUri = conductorDocImagePath
    
-      const conductorCreated =  await user.conductors().create(conductor)
+    //  const conductorCreated =  await user.conductors().create(conductor)
   
-      delete appealObj.conductor
-      appealObj.conductorId = conductorCreated.id
-      }
+     // delete appealObj.conductor
+     // appealObj.conductorId = conductorCreated.id
+    //  }
 
   
-      if(!appealObj.vehicleId){
+     //   if(!appealObj.vehicleId){
+      
+     //   const { vehicle } = appealObj  
+      //  const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+      //  const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
 
-        const { vehicle } = appealObj  
-        const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
-
-        const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
-        vehicle.url_img_docment = vehicleDocImagePath
+       // vehicle.url_img_docment = vehicleDocImagePath
   
        
-        const vehicleCreated =  await user.vehicles().create(vehicle)
+      //  const vehicleCreated =  await user.vehicles().create(vehicle)
         
-        delete appealObj.vehicle
-        appealObj.vehicleId = vehicleCreated.id
-        }
+      //  delete appealObj.vehicle
+     //   appealObj.vehicleId = vehicleCreated.id
+     //   }
          appealObj.contestations = JSON.stringify(appealObj.contestations)
-         appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
+      //   appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
          appealObj.historic = JSON.stringify(appealObj.historic)
         
 
        await  user.appeals().create(appealObj)
         
-        
-    
 }
 
 async getAll(){
 
- const  appeals = await Appeal.all()
-
- const data = await Promise.all(
-
-  appeals.rows.map(async(i)=>{
-  const item = i.$originalAttributes
- let  user = await User.findBy('id',item.user_id)
-  item['userName'] = user.name
-  const type = await AppealsType.findBy('id',item.typeId)
-  item['type']=type
-  item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
-  item['conductor']= await Conductor.findBy('id',item.conductorId)
-  return item
-  }
- )
- )
-return data;
+ return  await Appeal.all()
+    
 }
 
   async index({auth}){
@@ -120,15 +101,15 @@ return data;
   const appeals= await user.appeals().fetch()
 
   const data = await Promise.all( appeals.rows.map(async(i)=>{
-  const item = i.$originalAttributes
+  const item = i
   
-  item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
-  item['conductor']= await Conductor.findBy('id',item.conductorId)
-  const type = await AppealsType.findBy('id',item.typeId)
-  item['type']=type
+  // item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
+  // item['conductor']= await Conductor.findBy('id',item.conductorId)
+  // const type = await AppealsType.findBy('id',item.typeId)
+  // item['type']=type
 
   item.inconsistencies = JSON.parse(item.inconsistencies)
-  item.contestations = JSON.parse(item.contestations)
+ // item.contestations = JSON.parse(item.contestations)
   item.historic = JSON.parse(item.historic)
   return item
 })

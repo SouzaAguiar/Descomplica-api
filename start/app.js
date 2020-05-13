@@ -25,7 +25,8 @@ const providers = [
   "@adonisjs/antl/providers/AntlProvider",
   path.join(__dirname, '..', 'providers', 'PaymentProvider'),
   path.join(__dirname, '..', 'providers', 'UploadImageProvider'),
-  path.join(__dirname, '..', 'providers', 'SingProvider')
+  path.join(__dirname, '..', 'providers', 'SingProvider'),
+  path.join(__dirname, '..', 'providers', 'PdfCreatorProvider')
 ];
 
 

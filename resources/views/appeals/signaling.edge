@@ -1,0 +1,80 @@
+<div>
+
+    <h5><i>Ausência de sinalização adequada sobre a via</i></h5>
+
+    <p>
+    O auto de infração em questão é irregular, pois a infração referente ao artigo, por suposto excesso de velocidade, 
+    {{type.title}} da velocidade permitida na via, não pode ser aplicada, diante da ausência de sinalização na via, como 
+    se passa a demonstrar.
+    <br><br>
+    Conforme documentos anexos, não havia no local qualquer sinalização sobre a velocidade máxima da via, inviabilizando 
+    qualquer penalidade nesse sentido.
+    <br><br>
+    O próprio Código de Trânsito Brasileiro, em seu artigo 80, prevê que a sinalização na via é requisito indispensável 
+    à imposição de qualquer penalidade:
+    <br><br>
+    <span class="article"><i>"Art. 80. Sempre que necessário, será colocada ao longo da via, sinalização prevista neste Código e em legislação complementar, destinada a condutores e pedestres, vedada a utilização de qualquer outra.
+    § 1º A sinalização será colocada em posição e condições que a tornem perfeitamente visível e legível durante o dia e a noite, em distância compatível com a segurança do trânsito, conforme normas e especificações do CONTRAN."</i></span>
+    <br><br>
+    Neste sentido, veja-se o disposto no art. 61 do Código de Trânsito Brasileiro:
+    <br><br>
+    <span class="article"><i><b>"Art. 61. A velocidade máxima permitida para a via será indicada por meio de sinalização, obedecidas suas características técnicas e as condições de trânsito.”</b></i></span>
+    <br><br>
+    Corroborando com o Código de Trânsito Brasileiro, a resolução 396/2011 do CONTRAN, e seu artigo 6º:
+    <br><br>
+    <span class="article"><i><b>Art. 6°. A fiscalização de velocidade deve ocorrer em vias com sinalização de regulamentação de velocidade máxima permitida (placa R-19),</b> observadas as disposições contidas no Manual Brasileiro de Sinalização de Trânsito - Volume 1, de forma a garantir a segurança viária e informar aos condutores dos veículos a velocidade máxima permitida para o local.</i></span>
+    </p>
+    
+    @each(option in contestation.options)
+    
+    @if( option.id === 1 ||option.id === 5)
+    <p>
+        Além disso, a Resolução 396/2011 do Conselho Nacional de Trânsito - CONTRAN, em seu Anexo IV, estabelece as distâncias que devem ser observadas entre a placa de limite de velocidade e o local do equipamento eletrônico que faz sua medição.
+        <br>
+    </p>
+   @endif
+
+    @if(option.id === 1)
+    <p>
+        De acordo com a referida norma, para limite de velocidade superior a 80 Km/h a placa deve estar a uma distância entre 400 e 500 metros em via urbana e entre 1000 a 2000 metros em via rural. E para limite de velocidade de até 80 km/h a placa deve estar a uma distância entre 100 e 300 metros em via urbana e entre 300 a 1000 metros em via rural.
+        <br>
+    </p>
+    @endif
+
+   @if(option.id === 5)
+    <p>
+        E no local em que foi aferida a irregularidade, área (urbana ou rural) onde o limite de velocidade era de (informar) Km/h, a placa indicativa deste limite se encontra a (informar) metros de distância, conforme se pode averiguar pelas fotografias e imagem de satélite (google maps) anexas.
+        <br>
+    </p>
+   @endif
+
+    @if(option.id === 4)
+    <p>
+        Eis que, no caso em questão, a sinalização da via apontava velocidade máxima diferente da indicada na infração, conforme imagens anexas.
+        <br>
+    </p>
+    @endif
+
+    @if( option.id === 3)
+    <p>
+       Com efeito, a placa de sinalização no local se encontrava coberta por objeto, árvores, galhos e ou folhagens, razão pela qual, nem o/a Recorrente, nem qualquer pessoa, conseguiria facilmente identificá-la, conforme foto anexa.
+         <br>
+    </p>
+    @endif
+
+    @if(option.id === 2 )
+    <p>
+        Com efeito, a placa de sinalização no local se encontrava completamente danificada/pixada, razão pela qual, nem o Recorrente, nem qualquer pessoa, conseguiria facilmente identificá-la, conforme foto anexa.
+        <br>
+    </p>
+   @endif
+   @endeach
+
+    <p>
+        Considerando o caso concreto, o artigo 90 do Código de Trânsito Brasileiro prevê que não serão aplicadas as sanções quando a sinalização foi insuficiente ou incorreta.
+        <br><br><br>
+        <span class="article"><i>"Art. 90. <b>Não serão aplicadas as sanções</b> previstas neste Código <b>por inobservância à sinalização</b> quando esta for insuficiente ou incorreta."</i></span>
+
+    </p>
+
+</div>

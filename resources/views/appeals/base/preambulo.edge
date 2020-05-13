@@ -1,0 +1,37 @@
+    <div>
+
+        <h5><i>PREÂMBULO</i></h5>
+    
+        <p>        
+          {{appeal.conductor.conductor_name}}, 
+    
+           @if(appeal.conductor.personType === "Pessoa física")
+              portador do RG: nº {{appeal.conductor.conductor_docment_rg_number}}, inscrito no CPF sob nº {{appeal.conductor.conductor_docment_number}}
+            @else
+              CNPJ sob nº {{appeal.conductor.conductor_docment_number}}
+            @endif
+    
+              , residente e domiciliado na cidade {{appeal.user.city}} - {{appeal.user.state}},
+           
+    
+            vem respeitosamente, através do presente, com fulcro no quanto disposto no art. 
+    
+            @if(appeal.defense_type === 'Defesa prévia')
+              281, [paragrafo único, [I / II]
+              
+            @elseif(appeal.defense_type === 'Segunda instancia')
+              285
+            @else
+              288, § 1º
+            @endif
+             , da Lei nº 9.503, de 23 de setembro de 1997, conforme alterada (“Código de Trânsito Brasileiro”), da Resolução 299 de 04 de dezembro de 2008 e da Resolução nº 404 de 12 de junho de 2012, ambas do Conselho Nacional de Trânsito (“Contran”), apresentar 
+    
+             @if(appeal.defense_type === 'Defesa prévia')
+              DEFESA PRÉVIA
+              @else
+              DEFESA DE AUTUAÇÃO
+              @endif
+             contra o Auto de Infração n° {{appeal.notificationNumber}}, pelas razões de fato e de direito expostas a seguir.
+        </p>
+    
+    </div>

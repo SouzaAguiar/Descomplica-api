@@ -6,6 +6,10 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const User = use("App/Models/User");
+const VehicleModel = use("App/Models/Vehicle");
+
+
+const UploadSevice = use('Adonis/Services/UploadImage')
 
 
 /**
@@ -44,18 +48,17 @@ class VehicleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request }) {
-    const {
-      user_id,
-      brand,
-      license_plate,
-      url_img_docment,
-      model} = request.only(['user_id','brand',,'model','license_plate','url_img_docment'])
+  async store ({ auth , request }) {
 
-    const user = await User.findByOrFail('id',user_id)
-    await user.vehicles().create({brand,license_plate,url_img_docment,model})
-       
+    const { vehicle } = request.only(['vehicle'])
+    const vehicleObject = JSON.parse(vehicle)
+    const user = await auth.user
 
+    const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+    const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
+
+    vehicleObject.url_img_docment = vehicleDocImagePath;
+    return await user.vehicles().create(vehicleObject)
   }
 
   /**
@@ -90,7 +93,19 @@ class VehicleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ request }) {
+    const { vehicle } = request.only(['vehicle'])
+    const vehicleObject = JSON.parse(vehicle)
+  
+
+    const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+    if(vehicleDocImage){
+      const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
+      vehicleObject.url_img_docment = vehicleDocImagePath;
+    }
+    const v = VehicleModel.find(vehicleObject.id)
+     v.merge(vehicleObject)
+    return await v.save()
   }
 
   /**
@@ -102,6 +117,10 @@ class VehicleController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    
+    const vehicle = await Vehicle.find(params.id)
+    console.log(vehicle)
+    await vehicle.delete()
   }
 }
 

@@ -1,0 +1,16 @@
+<div>
+
+    <h5><i>DO VEÍCULO E DA INFRAÇÃO</i></h5>
+
+    <p>        
+        Foi recebido o Auto de Infração n°{{appeal.notificationNumber}}, expedido pelo 
+         {{appeal.taxingOrgan}}
+         , acerca da ocorrência de infração de trânsito por {{appeal.type.legalDescription}}, conduta prevista no artigo 
+         @if(appeal.type.article)
+            {{appeal.type.article}}
+         @endif
+
+         do Código de Trânsito Brasileiro. A autuação ocorreu enquanto o veículo {{appeal.vehicle.model}}, de placa {{appeal.vehicle.license_plate}} era conduzido pelo [ora Recorrente / representante do Requerente].
+    </p>
+
+</div>

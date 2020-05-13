@@ -7,17 +7,23 @@ const Env = use('Env')
 
 class Appeal extends Model {
 
+    static boot () {
+        super.boot()
+        this.addHook('afterFetch','AppealHook.loadRelations' )
+         
+        }
+
     user(){
         return this.belongsTo('App/Models/User')
             }
    appealsType(){
-       return this.hasOne('App/Models/AppealsType')
+       return this.belongsTo('App/Models/AppealsType','typeId')
    }        
-   vehicle(){
-    return this.hasOne('App/Models/Vehicle')
+    vehicle(){
+    return this.belongsTo('App/Models/Vehicle','vehicleId')
 }         
-conductor(){
-    return this.hasOne('App/Models/Conductor')
+   conductor(){
+    return this.belongsTo('App/Models/Conductor','conductorId')
 }   
 
 
