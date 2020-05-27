@@ -5,9 +5,11 @@ const path = require('path');
 const fs = require('fs').promises
 
 const Helpers = use('Helpers')
-const CLOUD_BUCKET ="descomplicar_images"
-const CLOUD_ID ="descomplica-268300";
+const CLOUD_BUCKET ="rpmimagens"
+const CLOUD_DOC_BUCKET ="rpmdocumentos"
+const CLOUD_ID ="descomplicar";
 const DEFULT_PATH =  `https://storage.googleapis.com/${CLOUD_BUCKET}/`;
+const DOCMENT_PATH =  `https://storage.googleapis.com/${CLOUD_DOC_BUCKET}/`;
 
 
 class UploadImageService{
@@ -16,11 +18,13 @@ class UploadImageService{
 
      constructor(config){
 
-       const storage = new Storage({
+    const storage = new Storage({
             projectId: CLOUD_ID,
-            keyFileName:path.join(__dirname,'../descomplica-268300-b7a152443492.json')
+            keyFileName:path.join(__dirname,'../descomplicar-19043b08b378')
         });
           this.bucket = storage.bucket(CLOUD_BUCKET);
+          this.docBucket = storage.bucket(CLOUD_DOC_BUCKET);
+
     }
 
 
@@ -33,16 +37,38 @@ const fileName = Date.now().toString()
           if (!image.moved()) {
             return image.errors()
           }
-      
-        this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
 
+      try {
+        console.log('start')
+    await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
+    console.log('done')
+      } catch (error) {
+        console.log('error')
+        const { code } = error
+       console.log(code)
+        if(code === 403){
+          
+          try {
+            console.log('trynig')
+            await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
+            console.log('sucess')
+          } catch (error) {
+            return ''
+          }
+        }
+        
+      }
+        
+
+     
+        
         
         return  DEFULT_PATH + fileName
     }
 
 
 
-    async uploadBase64(file){
+  async uploadBase64(file){
 
  let base64Image = file.split(';base64,').pop();
  
@@ -54,9 +80,31 @@ const fileName =  Date.now().toString()+'.jpg'
     return  DEFULT_PATH + fileName
     
 } 
- 
 
-     
+async uploadFileByPath(filePath){
+
+const fileName = path.basename(filePath);
+ try {
+  await this.docBucket.upload(filePath)
+ } catch (error) {
+
+  const { code } = error
+ 
+   if(code === 403){
+     try {
+      await this.docBucket.upload(filePath)
+     } catch (error) {
+       return ''
+       
+     }
+   }
+   
+ }
+ 
+ return DOCMENT_PATH + fileName
+
+}
+ 
    
   
 }

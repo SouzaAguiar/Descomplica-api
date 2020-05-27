@@ -56,7 +56,7 @@ Route.group(()=>{
   Route.post('/Contestation/update/:id','ContestationController.update')
 
 
-  Route.post('/appeals','AppealController.store');
+  //Route.post('/appeals','AppealController.store');
   Route.post('/Appeals/create','AppealController.store')
 
   Route.get('appeals','AppealController.index')
@@ -69,12 +69,18 @@ Route.group(()=>{
   Route.post('/Contestation/create','ContestationController.store')
   Route.get('/Contestations','ContestationController.index')
 
-  Route.post('/Conductor/create','ConductorController.store')
+  
 
   
   Route.post('/Vehicle/create','VehicleController.store')
   Route.delete('/Vehicle/delete/:id','VehicleController.destroy')
   Route.post('/Vehicle/update','VehicleController.update')
+
+  Route.post('/Conductor/create','ConductorController.store')
+  Route.delete('/Conductor/delete/:id','ConductorController.destroy')
+  Route.post('/Conductor/update','ConductorController.update')
+  
+
 
   Route.post('CreditCard/create','CreditCardController.store')
   Route.get('CreditCards','CreditCardController.show')
@@ -89,7 +95,7 @@ Route.group(()=>{
 Route.get('/', () => {
     return {'Descomplica api':'Bem vindo!'}
   });
-
+ 
    
   Route.get('/pdf',() =>{
      pdf.generatePdf();

@@ -49,7 +49,7 @@ class VehicleController {
    * @param {Response} ctx.response
    */
   async store ({ auth , request }) {
-
+  console.log('vehicle')
     const { vehicle } = request.only(['vehicle'])
     const vehicleObject = JSON.parse(vehicle)
     const user = await auth.user
@@ -116,10 +116,9 @@ class VehicleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
     
     const vehicle = await Vehicle.find(params.id)
-    console.log(vehicle)
     await vehicle.delete()
   }
 }

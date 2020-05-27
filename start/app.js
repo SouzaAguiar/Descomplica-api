@@ -23,6 +23,7 @@ const providers = [
   "@adonisjs/framework/providers/ViewProvider",
   "@adonisjs/validator/providers/ValidatorProvider",
   "@adonisjs/antl/providers/AntlProvider",
+  '@adonisjs/drive/providers/DriveProvider',
   path.join(__dirname, '..', 'providers', 'PaymentProvider'),
   path.join(__dirname, '..', 'providers', 'UploadImageProvider'),
   path.join(__dirname, '..', 'providers', 'SingProvider'),

@@ -1,0 +1,19 @@
+<div>
+
+    <h5><i>DOCUMENTOS</i></h5>
+
+    @if(appeal.vehicle.url_img_docment)
+      <h3> Documento do carro </h3>
+<img src="{{appeal.vehicle.url_img_docment}}"  style="width:80%">
+      <br><br>
+    @endif   
+
+
+    @if(appeal.ticketPhotoUri)
+      <h3> Foto da infração </h3>
+<img src="{{appeal.ticketPhotoUri}}"style="width:80%">
+      <br><br>
+    @endif   
+
+
+</div>

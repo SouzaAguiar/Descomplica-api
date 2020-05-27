@@ -23,7 +23,7 @@ class UserController {
   async forgotPasswor({ request, auth }) {
     const email = request.input("email")
   
-console.log('forgotPasswor')
+
     const user = await User.findByOrFail("email", email)
 
     const { token } = await await auth.generate(user)
@@ -41,10 +41,11 @@ console.log('forgotPasswor')
       message => {
         message
           .to(user.email)
-          .from("descomplica@gmail.com")
-          .subject("Descomplica-Recuperação de senha");
+          .from("recorrepramim@gmail.com")
+          .subject("Recorre Pra Min-Recuperação de senha");
       }
-    );
+    )
+   
   }
 
   async register({ request }) {
@@ -114,7 +115,7 @@ console.log('forgotPasswor')
   }
 
   
-async update({request,auth}){
+async update({request, auth }){
 
   const data = request.all()
   const user = auth.user

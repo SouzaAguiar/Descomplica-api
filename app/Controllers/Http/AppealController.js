@@ -6,8 +6,9 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  Appeal = use('App/Models/Appeal');
 
+
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const  User = use('App/Models/User');
+const  ApealsTypes = use('App/Models/AppealsType');
 
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
@@ -18,10 +19,15 @@ const  Conductor = use('App/Models/Conductor');
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  AppealsType = use('App/Models/AppealsType');
+const VehicleModel = use("App/Models/Vehicle");
+
 
 const UploadSevice = use('Adonis/Services/UploadImage')
 
+const PdfCreator = use('Adonis/Services/PdfCreator')
 
+const Helpers = use('Helpers')
+const Mail = use("Mail");
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -36,58 +42,63 @@ class AppealController {
    * @param {Request} ctx.request
    * @param {View} ctx.view
    */
-    async store({request, auth }){
-    
-      const { appeal } = request.only(['appeal'])
+    async store({ request, auth }){
+      console.log('aqui')
+  
+     const { appeal } = request.only(['appeal'])
       const appealObj = JSON.parse(appeal)
       const user = await auth.user
      
-    //  const  signaturePath = await UploadSevice.uploadBase64(signature)
-    // appealObj.signaturePath = signaturePath
-
-
-      const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
     
-      const ticketPhotoUri = await UploadSevice.upload(ticketImage)
+      const appealToPdf = appealObj
+      appealToPdf.type = await ApealsTypes.find(appealToPdf.typeId)
+      console.log('aqui')
+      const {formal=[],material={} } = appealToPdf.contestations
+     
+      delete  appealToPdf.contestations
+  
+      appealToPdf.contestations = [...formal,material]
+      console.log('aqui')
+      appealToPdf.user = user
+      console.log('aqui')
+    
+
+  const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
+  const ticketPhotoUri = await UploadSevice.upload(ticketImage)
+  console.log('aqui')
+ 
+      
+
       appealObj.ticketPhotoUri = ticketPhotoUri
-      
+      appealToPdf.ticketPhotoUri =ticketPhotoUri
 
-     // if(!appealObj.conductorId){
-        
-    //  const { conductor } = appealObj  
-    //  const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
-    //  const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
-      
-    //  conductor.docmentImgUri = conductorDocImagePath
    
-    //  const conductorCreated =  await user.conductors().create(conductor)
-  
-     // delete appealObj.conductor
-     // appealObj.conductorId = conductorCreated.id
-    //  }
+    console.log('aqui')
+    const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
+    try {
+       await PdfCreator.generatePdf(appealToPdf,appealName)
+     const docmentPath = await UploadSevice.uploadFileByPath(`./tmp/${appealName}`)
+     console.log(docmentPath)
 
-  
-     //   if(!appealObj.vehicleId){
-      
-     //   const { vehicle } = appealObj  
-      //  const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
-      //  const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
-
-       // vehicle.url_img_docment = vehicleDocImagePath
-  
-       
-      //  const vehicleCreated =  await user.vehicles().create(vehicle)
-        
-      //  delete appealObj.vehicle
-     //   appealObj.vehicleId = vehicleCreated.id
-     //   }
-         appealObj.contestations = JSON.stringify(appealObj.contestations)
-      //   appealObj.inconsistencies = JSON.stringify(appealObj.inconsistencies)
-         appealObj.historic = JSON.stringify(appealObj.historic)
-        
-
-       await  user.appeals().create(appealObj)
-        
+    } catch (error) {
+      console.log(error)
+    }
+    
+     appealObj.contestations = JSON.stringify(appealObj.contestations)
+     delete appealObj.user
+     delete appealObj.conductor
+     delete appealObj.vehicle
+     delete appealObj.type
+    
+     appealObj.historic = JSON.stringify(appealObj.historic)
+    try {
+      await user.appeals().create(appealObj)
+    } catch (error) {
+      console.log(error)
+    }
+   
+   
+     
 }
 
 async getAll(){

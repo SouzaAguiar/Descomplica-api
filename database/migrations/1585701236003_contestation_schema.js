@@ -13,6 +13,7 @@ class ContestationSchema extends Schema {
       table.boolean('requiredAttachment').defaultTo(false)
       table.string('attachment',1024).defaultTo('[]')
       table.string('type').notNullable().defaultTo('FORMAL')
+      table.string('template')
       table.timestamps()
     })
   }

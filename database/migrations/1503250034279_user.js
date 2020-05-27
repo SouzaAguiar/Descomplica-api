@@ -17,6 +17,7 @@ class UserSchema extends Schema {
       table.string('signer')
       table.boolean('hasAcceptTheTerms').defaultTo(false)
       table.enum('ruler',['ADMIN','USER']).defaultTo('USER')
+      table.boolean('enabled').defaultTo(true)
       table.timestamps()
     })
   }

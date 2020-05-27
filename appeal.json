@@ -55,7 +55,7 @@
       "id": 1,
       "type": "is_velocity_20",
       "title": "Velocidade de 21 a 50%",
-      "template":"appeals/high_speed",
+      "template":"high_speed",
       "article":218,
       "description": "Multa por trafegar entre 21 e 50% do permitido.",
       "legalDescription":"trafegar entre 21 e 50% do permitido",
@@ -63,36 +63,21 @@
       "updated_at": "2020-04-18 22:19:16"
     },
   "contestations": [
-    {
-    "id": 7,
-    "descripton": "Falta de sinalização ou inadequada",
-    "legalDescription":"Ausência de sinalização adequada sobre a via",
-    "requiredAttachment":true,
-    "template":"appeals/signaling",
-    "attachment":[],
-    "options":[ {
-      "id": 3,
-      "descripton":"Em área urbana, se a velocidade era menor que 80km/h, havia plana entre 100 a 400 metros antes?",
-      "legalDescription":"Falta de sinalização ou inadequada",
-      "requiredAttachment":true,
+    {"id":4,
+      "descripton":"Multa duplicada, bis in Idem",
+      "items":[],
+      "created_at":"2020-04-18 22:24:23",
+      "updated_at":"2020-04-18 22:24:23",
+      "legalDescripton":"",
+      "requiredAttachment":0,
       "attachment":[],
-      "obtions":[]
-    }
-    ],
-    "created_at": "2020-04-19T17:59:45.000Z",
-    "updated_at": "2020-04-19T17:59:45.000Z"
-  },
-    {
-    "id": 7,
-    "descripton": "Falta de sinalização ou inadequada",
-    "legalDescription":"Ausência de sinalização adequada sobre a via",
-    "requiredAttachment":true,
-    "template":"appeals/not_caught",
-    "attachment":[],
-    "options":[],
-    "created_at": "2020-04-19T17:59:45.000Z",
-    "updated_at": "2020-04-19T17:59:45.000Z"
-  }
+      "type":"FORMAL",
+      "template":"appeals/bis_in_idem",
+      "options":[],
+      "pivot":{"contestation_id":4,
+        "appeal_type_id":2}}
+    
+   
 ],
 "user":{
     "id": 1,
