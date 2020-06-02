@@ -49,7 +49,7 @@ class VehicleController {
    * @param {Response} ctx.response
    */
   async store ({ auth , request }) {
-  console.log('vehicle')
+
     const { vehicle } = request.only(['vehicle'])
     const vehicleObject = JSON.parse(vehicle)
     const user = await auth.user
@@ -94,18 +94,28 @@ class VehicleController {
    * @param {Response} ctx.response
    */
   async update ({ request }) {
+   
     const { vehicle } = request.only(['vehicle'])
     const vehicleObject = JSON.parse(vehicle)
-  
+   
 
     const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
     if(vehicleDocImage){
       const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
       vehicleObject.url_img_docment = vehicleDocImagePath;
     }
-    const v = VehicleModel.find(vehicleObject.id)
-     v.merge(vehicleObject)
-    return await v.save()
+   
+    const v = await VehicleModel.find(vehicleObject.id)
+    
+   
+      v.merge(vehicleObject)
+     
+   
+      return await v.save()
+    
+     
+     
+    
   }
 
   /**

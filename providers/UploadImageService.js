@@ -53,6 +53,7 @@ const fileName = Date.now().toString()
             await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
             console.log('sucess')
           } catch (error) {
+            console.log('failure')
             return ''
           }
         }
@@ -85,15 +86,20 @@ async uploadFileByPath(filePath){
 
 const fileName = path.basename(filePath);
  try {
+  console.log('start')
   await this.docBucket.upload(filePath)
+  console.log('done')
  } catch (error) {
-
+  console.log('error')
   const { code } = error
  
    if(code === 403){
      try {
+      console.log('trynig')
       await this.docBucket.upload(filePath)
+      console.log('sucess')
      } catch (error) {
+      console.log('failure')
        return ''
        
      }
