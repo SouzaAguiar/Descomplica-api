@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs').promises
 
 const Helpers = use('Helpers')
+
 const CLOUD_BUCKET ="rpmimagens"
 const CLOUD_DOC_BUCKET ="rpmdocumentos"
 const CLOUD_ID ="descomplicar";
@@ -15,48 +16,54 @@ const DOCMENT_PATH =  `https://storage.googleapis.com/${CLOUD_DOC_BUCKET}/`;
 class UploadImageService{
 
 
+     constructor({_config:config}){
+       const { filePath } = config.upload
+       this.filePath = filePath
 
-     constructor(config){
 
-    const storage = new Storage({
-            projectId: CLOUD_ID,
-            keyFileName:path.join(__dirname,'../descomplicar-19043b08b378')
-        });
-          this.bucket = storage.bucket(CLOUD_BUCKET);
-          this.docBucket = storage.bucket(CLOUD_DOC_BUCKET);
+
+   // const storage = new Storage({
+        //    projectId: CLOUD_ID,
+       //     keyFileName:path.join(__dirname,'../descomplicar-19043b08b378')
+      //  });
+        //  this.bucket = storage.bucket(CLOUD_BUCKET);
+       //   this.docBucket = storage.bucket(CLOUD_DOC_BUCKET);
 
     }
 
 
   async upload(image){
 
-const fileName = Date.now().toString()
+const fileName =`${Date.now().toString()}.${image.extname}`
+
    
  await image.move(Helpers.tmpPath('uploads'),{name:fileName ,overwrite: true})
 
           if (!image.moved()) {
             return image.errors()
           }
-
-      try {
-        console.log('start')
-    await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
-    console.log('done')
-      } catch (error) {
-        console.log('error')
-        const { code } = error
-       console.log(code)
-        if(code === 403){
+          return `${this.filePath}/${fileName}`
           
-          try {
-            console.log('trynig')
-            await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
-            console.log('sucess')
-          } catch (error) {
-            console.log('failure')
-            return ''
-          }
-        }
+      
+     // try {
+     //   console.log('start')
+   /// await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
+   // console.log('done')
+   //   } catch (error) {
+    //    console.log('error')
+    //    const { code } = error
+    //   console.log(code)
+    //    if(code === 403){
+          
+       //   try {
+      //      console.log('trynig')
+      //      await this.bucket.upload(Helpers.tmpPath('uploads')+'/'+fileName) 
+      //      console.log('sucess')
+      //    } catch (error) {
+      //      console.log('failure')
+       //     return ''
+      //    }
+     //   }
         
       }
         
@@ -64,8 +71,8 @@ const fileName = Date.now().toString()
      
         
         
-        return  DEFULT_PATH + fileName
-    }
+     //   return  DEFULT_PATH + fileName
+    //}
 
 
 

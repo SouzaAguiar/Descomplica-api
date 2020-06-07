@@ -21,8 +21,10 @@ class AppealsSchema extends Schema {
       table.string('contestations',2048).notNullable()
       table.string('paymentId').notNullable()
       table.string('paymentStatus').notNullable()
-      ttable.string('description').notNullable()
+      table.string('description').notNullable()
+       table.string('fileName')
       table.string('historic',2048)
+      table.boolean('hasRead').defaultTo(false)
       table.timestamps()
     })
   }

@@ -119,15 +119,26 @@ async update({request, auth }){
 
   const data = request.all()
   const user = auth.user
+  console.log('update')
   user.merge(data)
-  await user.save();
+ return await user.save();
+}
+
+async block({ request }){
+const {id, enabled } = request.only(['enabled','id'])
+
+const user = await User.find(parseInt(id))
+user.merge({ enabled })
+return user.save()
+
+
 }
 
 async saveAvatar({ auth, request }){
   
   const user = await auth.user
   const avatar = request.file('avatar',{type:['image'],size:'4mb'})
-  
+
     const  UrlImg = await UploadSevice.upload(avatar)
    
   user.merge({UrlImg})
@@ -140,6 +151,7 @@ async getMenssages({ auth }){
 
 }
 
+
 async index(){
   return await User.all();
 }
@@ -149,6 +161,7 @@ async delete({ params }){
   const user = await User.findBy('id',params.id)
    await user.delete()
 }
+
 
  async sing({ auth, request }){
 

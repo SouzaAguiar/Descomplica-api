@@ -126,11 +126,17 @@ class VehicleController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params }) {
+  async destroy ({ auth, params }) {
     
-    const vehicle = await Vehicle.find(params.id)
-    await vehicle.delete()
-  }
-}
+    const user = await auth.user
+    const vehicles = await user.vehicles().where('id',params.id).fetch()
+    const [vehicle]= vehicles.rows
 
+   
+  
+    
+   return await vehicle.delete()
+ 
+}
+}
 module.exports = VehicleController

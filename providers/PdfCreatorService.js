@@ -7,6 +7,7 @@
  const pdf = require('html-pdf');
  const options = { format: 'A4',border: "1in" };
  const edge = require('edge.js')
+ const Helpers = use('Helpers')
  edge.registerViews('../app/resources/views')
 
 
@@ -17,8 +18,8 @@
   let anexosCount = 0;
 
 
-    const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template })
-    pdf.create(html, options).toFile(`./tmp/${fileName}`, function(err, res) {
+    const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template,basePath:Helpers.tmpPath('uploads') })
+    pdf.create(html, options).toFile(`./tmp/uploads/${fileName}`, function(err, res) {
     if (err) {return console.log(err);}
     return fileName
     });

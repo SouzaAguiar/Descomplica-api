@@ -23,10 +23,12 @@ class ConductorController {
     }
     
 
-    async destroy ({ params }) {
+    async destroy ({ auth, params }) {
+     const user = await auth.user
+     const conductors = await user.conductors().where('id',params.id).fetch()
+     const [conductor]= conductors.rows
      
-      const conductor = await Conductor.find(params.id)
-      await conductor.delete()
+      return await conductor.delete()
 
     }
 

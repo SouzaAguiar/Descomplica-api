@@ -43,22 +43,12 @@ class MenssageController {
    * @param {Response} ctx.response
    */
   async store ({ request, auth }) {
-    const { menssage }= request.only(['message'])
+    const { menssage }= request.only(['menssage'])
      const user = await auth.user
    await user.messages().create({ menssage })
   }
 
-  /**
-   * Display a single menssage.
-   * GET menssages/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
+
 
   /**
    * Render a form to update an existing menssage.
@@ -72,16 +62,7 @@ class MenssageController {
   async edit ({ params, request, response, view }) {
   }
 
-  /**
-   * Update menssage details.
-   * PUT or PATCH menssages/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+ 
 
   /**
    * Delete a menssage with id.
@@ -91,7 +72,15 @@ class MenssageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async delete ({ params, auth }) {
+    const user = await auth.user
+    const menssages = await user.messages().where('id',parseInt(params.id)).fetch()
+    const [menssage]= menssages.rows
+
+    return await  menssage.delete()
+  
+  
+
   }
 }
 

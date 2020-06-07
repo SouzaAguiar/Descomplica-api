@@ -1,33 +1,16 @@
 'use strict'
 
 
-
-
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  Appeal = use('App/Models/Appeal');
 
-
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const  ApealsTypes = use('App/Models/AppealsType');
-
-
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const  Vehicles = use('App/Models/Vehicle');
-
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const  Conductor = use('App/Models/Conductor');
-
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const  AppealsType = use('App/Models/AppealsType');
-const VehicleModel = use("App/Models/Vehicle");
-
 
 const UploadSevice = use('Adonis/Services/UploadImage')
 
 const PdfCreator = use('Adonis/Services/PdfCreator')
 
-const Helpers = use('Helpers')
-const Mail = use("Mail");
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -43,7 +26,7 @@ class AppealController {
    * @param {View} ctx.view
    */
     async store({ request, auth }){
-      console.log('aqui')
+      
   
      const { appeal } = request.only(['appeal'])
       const appealObj = JSON.parse(appeal)
@@ -52,38 +35,33 @@ class AppealController {
     
       const appealToPdf = appealObj
       appealToPdf.type = await ApealsTypes.find(appealToPdf.typeId)
-      console.log('aqui')
+  
       const {formal=[],material={} } = appealToPdf.contestations
      
       delete  appealToPdf.contestations
   
       appealToPdf.contestations = [...formal,material]
-      console.log('aqui')
-      appealToPdf.user = user
-      console.log('aqui')
     
+      appealToPdf.user = user
+   
+  
 
   const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
   const ticketPhotoUri = await UploadSevice.upload(ticketImage)
-  console.log('aqui')
- 
-      
+  
 
       appealObj.ticketPhotoUri = ticketPhotoUri
       appealToPdf.ticketPhotoUri =ticketPhotoUri
 
    
-    console.log('aqui')
     const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
-    try {
+   
        await PdfCreator.generatePdf(appealToPdf,appealName)
-     const docmentPath = await UploadSevice.uploadFileByPath(`./tmp/${appealName}`)
-     console.log(docmentPath)
+       appealObj.fileName = appealName
+   
+    appealObj.vehicleId = appealObj.vehicle.id
+    appealObj.conductorId = appealObj.conductor.id
 
-    } catch (error) {
-      console.log(error)
-    }
-    
      appealObj.contestations = JSON.stringify(appealObj.contestations)
      delete appealObj.user
      delete appealObj.conductor
@@ -91,11 +69,9 @@ class AppealController {
      delete appealObj.type
     
      appealObj.historic = JSON.stringify(appealObj.historic)
-    try {
+   
       await user.appeals().create(appealObj)
-    } catch (error) {
-      console.log(error)
-    }
+   
    
    
      
@@ -113,14 +89,8 @@ async getAll(){
 
   const data = await Promise.all( appeals.rows.map(async(i)=>{
   const item = i
-  
-  // item['vehicle'] = await Vehicles.findBy('id',item.vehicleId)
-  // item['conductor']= await Conductor.findBy('id',item.conductorId)
-  // const type = await AppealsType.findBy('id',item.typeId)
-  // item['type']=type
 
   item.inconsistencies = JSON.parse(item.inconsistencies)
- // item.contestations = JSON.parse(item.contestations)
   item.historic = JSON.parse(item.historic)
   return item
 })
@@ -129,7 +99,17 @@ async getAll(){
  return data
   
 }
-
+async update({params,auth,request}){
+  // const user = await auth.user
+  // const appeals = await user.appeals().where('id',params.id).fetch()
+  // const [ appeal ]= appeals.rows
+  // appeal.signaturePath =''
+  // appeal.contestations = JSON.stringify(appeals.contestations)
+  // const data = request.all()
+  // appeal.merge(data)
+  // return await appeal.save()
+ return true;
+}
 
 }
 module.exports = AppealController

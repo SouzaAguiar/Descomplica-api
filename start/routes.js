@@ -1,6 +1,7 @@
 'use strict'
 const pdf =  use('Adonis/Services/PdfCreator')
-
+const Helpers = use('Helpers')
+const UploadSevice = use('Adonis/Services/UploadImage')
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -38,7 +39,10 @@ Route.post('/ApealsType/create','AppealsTypeController.store').middleware('authA
 
 
 Route.post('Payment/installments','PaymentController.getInstallments')
-
+Route.get('/file/:fileName', async ({response,params})=>{
+  console.log('dawnloading')
+   return response.download(Helpers.tmpPath(`uploads/${params.fileName}`))
+ })
 Route.group(()=>{
 
   Route.get('/images','ImageController.index')
@@ -47,16 +51,22 @@ Route.group(()=>{
   Route.get('/user','UserController.show')
   Route.post('/user/update','UserController.update')
   Route.post('/user/avatar','UserController.saveAvatar')
-  Route.post('/user/menssage','UserController.store')
+  Route.post('/user/block','UserController.block').middleware('authAdmin')
+
+  Route.post('/user/menssage/create','MenssageController.store')
   Route.get('/user/menssages','UserController.getMenssages')
+  Route.delete('/user/menssage/delete/:id','MenssageController.delete')
+
+  
+
 
   Route.post('/user/sing','UserController.sing')
 
   Route.post('/Contestation/option/create','ContestationController.createOptions')
   Route.post('/Contestation/update/:id','ContestationController.update')
 
-
-  //Route.post('/appeals','AppealController.store');
+ 
+  Route.post('/appeals/update/:id','AppealController.update');
   Route.post('/Appeals/create','AppealController.store')
 
   Route.get('appeals','AppealController.index')
@@ -68,8 +78,6 @@ Route.group(()=>{
 
   Route.post('/Contestation/create','ContestationController.store')
   Route.get('/Contestations','ContestationController.index')
-
-  
 
   
   Route.post('/Vehicle/create','VehicleController.store')
@@ -98,6 +106,6 @@ Route.get('/', () => {
  
    
   Route.get('/pdf',() =>{
-     pdf.generatePdf();
+    UploadSevice.upload({})
     return {'result':'ok'}
   })
