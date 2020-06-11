@@ -12,7 +12,7 @@ class ConductorController {
       const  user = await auth.user
       const  conductorObject = JSON.parse(conductor)
     
-      const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'4mb'})
+      const  conductorDocImage = request.file('conductorDocImage',{type:['image'],size:'5mb'})
    
       const  conductorDocImagePath = await UploadSevice.upload(conductorDocImage)
   

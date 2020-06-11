@@ -27,15 +27,7 @@ class ContestationController {
   async index ({ request, response }) {
 
     const contestations = await Constestation.all()
-    // await Promise.all(
-     
-    //   contestations.rows.map( async constestation =>{
-    //   const temp = constestation
-    //   temp.options = await constestation.options().fetch()
-    //   return temp
-    //   })
-
-    // )
+   
     return contestations
   }
 

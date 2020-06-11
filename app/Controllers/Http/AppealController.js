@@ -25,53 +25,57 @@ class AppealController {
    * @param {Request} ctx.request
    * @param {View} ctx.view
    */
-    async store({ request, auth }){
+    async store({ request, auth, response }){
       
   
      const { appeal } = request.only(['appeal'])
       const appealObj = JSON.parse(appeal)
       const user = await auth.user
      
-    
+ 
       const appealToPdf = appealObj
       appealToPdf.type = await ApealsTypes.find(appealToPdf.typeId)
-  
+ 
       const {formal=[],material={} } = appealToPdf.contestations
-     
+ 
       delete  appealToPdf.contestations
-  
+
       appealToPdf.contestations = [...formal,material]
-    
       appealToPdf.user = user
+      let ticketPhotoUri=''
+  
+      try {
+       const ticketImage = request.file('ticketImage',{type:['image'],size:'6mb'})
+       const {isSuccess,url}  = await UploadSevice.upload(ticketImage)
+        ticketPhotoUri= url
+    
+      } catch (error) {
+        response.status(400).send('ticketImage upload Error')
+      }
+  
    
-  
-
-  const ticketImage = request.file('ticketImage',{type:['image'],size:'4mb'})
-  const ticketPhotoUri = await UploadSevice.upload(ticketImage)
-  
-
       appealObj.ticketPhotoUri = ticketPhotoUri
       appealToPdf.ticketPhotoUri =ticketPhotoUri
-
-   
+      
+      
     const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
    
        await PdfCreator.generatePdf(appealToPdf,appealName)
        appealObj.fileName = appealName
-   
+       
     appealObj.vehicleId = appealObj.vehicle.id
     appealObj.conductorId = appealObj.conductor.id
-
+    
      appealObj.contestations = JSON.stringify(appealObj.contestations)
      delete appealObj.user
      delete appealObj.conductor
      delete appealObj.vehicle
      delete appealObj.type
-    
+     
      appealObj.historic = JSON.stringify(appealObj.historic)
-   
+ 
       await user.appeals().create(appealObj)
-   
+     
    
    
      

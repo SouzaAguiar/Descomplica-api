@@ -32,9 +32,8 @@ class UserController {
       token,
       type: "forgotPassword"
     });
-    const forgotPasswordUrl = `${Env.get("FRONT_URL")}/resetPassword?token=${token}`
+    const forgotPasswordUrl = `${Env.get("FRONT_URL")}/reset?token=${token}`
     
-
   
     await Mail.send(
       "emails.forgotPassword",
@@ -92,9 +91,11 @@ class UserController {
     }
 
     const user = await userToken.user().fetch();
-
+    
     user.password = data.password;
-    await user.save();
+    
+ 
+    return await user.save();
   }
 
   async store({ request, auth }) {
