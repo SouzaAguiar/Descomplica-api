@@ -95,11 +95,13 @@ class ContestationController {
 
   async createOptions({ request }){
     const option = request.all();
-   console.log(option)
+
     return await Option.create(option)
 
   
   }
+
+  
 }
 
 

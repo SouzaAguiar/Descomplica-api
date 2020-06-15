@@ -8,6 +8,11 @@ class AppealReasonSchema extends Schema {
     this.create('appeal_reasons', (table) => {
       table.increments()
       table.text('description',80)
+      table.string('template')
+      table.boolean('requiredAttachment').defaultTo(false)
+      table.enum('AttachmentInputType',['yes/no','textInput','imageInput','dataPiker'])
+      table.string('attachment',1024).defaultTo('[]')
+      table.string('legalDescripton').notNullable()
       table.timestamps()
     })
   }

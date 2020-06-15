@@ -10,7 +10,7 @@ AppealTypeHook.loadRelations = async (appealsType) => {
 
         const temp = appealType
         temp.material = await appealType.contestations().fetch();
-        temp.formal = await appealType.appealsType().fetch();
+        temp.formal = await appealType.appealReasons().fetch();
       
         return temp
    

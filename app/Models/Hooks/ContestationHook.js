@@ -11,9 +11,7 @@ ContestationHook.fieldsToArray = async (contestations) => {
 
     if(Array.isArray(contestations)){
 
-    
      await contestations.map( contestation =>{
-
         contestation.attachment = JSON.parse(contestation.attachment)
         contestation.items = JSON.parse(contestation.items)
 

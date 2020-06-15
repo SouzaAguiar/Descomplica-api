@@ -39,16 +39,19 @@ class AppealController {
       const {formal=[],material={} } = appealToPdf.contestations
  
       delete  appealToPdf.contestations
-
-      appealToPdf.contestations = [...formal,material]
+      if(Object.keys(material).length !== 0){
+        appealToPdf.contestations = [...formal,material]
+      }else{
+        appealToPdf.contestations = [...formal]
+      }
+     
       appealToPdf.user = user
       let ticketPhotoUri=''
   
       try {
        const ticketImage = request.file('ticketImage',{type:['image'],size:'6mb'})
-       const {isSuccess,url}  = await UploadSevice.upload(ticketImage)
-        ticketPhotoUri= url
-    
+       ticketPhotoUri  = await UploadSevice.upload(ticketImage)
+     
       } catch (error) {
         response.status(400).send('ticketImage upload Error')
       }

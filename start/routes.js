@@ -63,6 +63,7 @@ Route.group(()=>{
   Route.post('/user/sing','UserController.sing')
 
   Route.post('/Contestation/option/create','ContestationController.createOptions')
+  Route.get('/Contestation/options','OptionController.show')
   Route.post('/Contestation/update/:id','ContestationController.update')
 
  
@@ -73,6 +74,7 @@ Route.group(()=>{
   Route.get('/ApealsType','AppealsTypeController.show')
   Route.post('/ApealsReason/create','AppealsReasonController.store')
   Route.get('/ApealsReason','AppealsReasonController.index')
+  Route.post('/ApealsReason/update/:id','AppealsReasonController.update')
 
   Route.post('/ApealsType/update/:id','AppealsTypeController.update')
 

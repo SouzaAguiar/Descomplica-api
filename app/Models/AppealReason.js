@@ -5,9 +5,13 @@ const Model = use('Model')
 
 class AppealReason extends Model {
 
- //  // desfanseIssues () {
-    //    return this.hasMany('App/Models/DefenseIssue')
-    //  }
+    static boot () {
+        super.boot()
+    this.addHook('afterFetch','ContestationHook.getOptions' )
+    }
+    options(){
+        return this.belongsToMany('App/Models/Option','appeal_reasons_id','option_id')
+     }
 }
 
 module.exports = AppealReason

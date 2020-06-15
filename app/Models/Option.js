@@ -11,7 +11,7 @@ class Option extends Model {
       
         this.addHook('beforeSave','OptionHook.fieldsToString')
         this.addHook('afterFind','OptionHook.fieldsToArray' )
-     this.addHook('afterFetch','OptionHook.fieldsToArray')
+        this.addHook('afterFetch','OptionHook.fieldsToArray')
 
         
       }

@@ -25,6 +25,7 @@ class AppealsSchema extends Schema {
        table.string('fileName')
       table.string('historic',2048)
       table.boolean('hasRead').defaultTo(false)
+      table.string('signature_document_key')
       table.timestamps()
     })
   }

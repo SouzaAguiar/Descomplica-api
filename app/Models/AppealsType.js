@@ -15,7 +15,7 @@ class AppealsType extends Model {
     contestations(){
         return this.belongsToMany('App/Models/Contestation','appeal_type_id','contestation_id')
       }
-    appealsType(){
+    appealReasons(){
         return this
         .belongsToMany('App/Models/AppealReason','appeal_type_id','appeal_reason_id')
         .pivotTable('appeals_type_appeal_reasons')

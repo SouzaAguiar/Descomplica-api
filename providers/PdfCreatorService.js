@@ -17,12 +17,15 @@
   async generatePdf(appeal,fileName){
   let anexosCount = 0;
 
-
-    const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template,basePath:Helpers.tmpPath('uploads') })
+  console.log(appeal.vehicle.url_img_docment)
+  
+  
+      const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template,basePath:Helpers.tmpPath('uploads') })
     pdf.create(html, options).toFile(`./tmp/uploads/${fileName}`, function(err, res) {
     if (err) {return console.log(err);}
     return fileName
     });
+ 
    
    }
  
