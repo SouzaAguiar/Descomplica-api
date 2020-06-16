@@ -6,8 +6,8 @@ const AppealReason = use("App/Models/AppealReason");
 class AppealsReasonController {
 
     async store({ request }){
-        const { options,description } = request.all()
- 
+        const { options,...data } = request.all()
+        
         const appealReason = await AppealReason.create(data)
         await appealReason.options().attach(options)
     
