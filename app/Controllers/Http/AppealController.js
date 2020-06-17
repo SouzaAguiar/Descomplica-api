@@ -29,10 +29,10 @@ class AppealController {
       
   
      const { appeal } = request.only(['appeal'])
+    
       const appealObj = JSON.parse(appeal)
       const user = await auth.user
      
- 
       const appealToPdf = appealObj
       appealToPdf.type = await ApealsTypes.find(appealToPdf.typeId)
  
@@ -55,7 +55,8 @@ class AppealController {
       } catch (error) {
         response.status(400).send('ticketImage upload Error')
       }
-  
+      
+
    
       appealObj.ticketPhotoUri = ticketPhotoUri
       appealToPdf.ticketPhotoUri =ticketPhotoUri

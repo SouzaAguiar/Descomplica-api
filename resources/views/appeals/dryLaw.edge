@@ -30,9 +30,11 @@ Portanto, totalmente incabível a autuação da Recorrente com base no art. 165-
 <br>
 </p>
 
-@each(option in contestation.options)
-
-@endeach
+@each(contestation in appeal.contestations)
+  
+    @include(contestation.template)
+        
+    @endeach
 
 
 </div>

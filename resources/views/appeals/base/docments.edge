@@ -15,5 +15,14 @@
       <br><br>
     @endif   
 
+    @if(appeal.attachments)
+    <h3> Anexos</h3>
+  @each(attachments in appeal.attachments)
+<img src="{{attachments}}"style="width:80%">
+  <h1> Anexo {{ ($loop.index + 1) }}</h1>
+@endeach
+    <br><br>
+  @endif   
+
 
 </div>
