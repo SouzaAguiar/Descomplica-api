@@ -34,7 +34,6 @@ class UserController {
     });
     const forgotPasswordUrl = `${Env.get("FRONT_URL")}/resetPassword?token=${token}`
     
-  
     await Mail.send(
       "emails.forgotPassword",
       { name: user.name,forgotPasswordUrl },
@@ -42,7 +41,7 @@ class UserController {
         message
           .to(user.email)
           .from("recorrepramim@gmail.com")
-          .subject("Recorre Pra Min-Recuperação de senha");
+          .subject("Recorre Pra Mim – Recuperação de senha");
       }
     )
    

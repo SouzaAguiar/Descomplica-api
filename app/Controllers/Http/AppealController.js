@@ -72,8 +72,6 @@ class AppealController {
     
      appealObj.contestations = JSON.stringify(appealObj.contestations)
      delete appealObj.user
-     delete appealObj.conductor
-     delete appealObj.vehicle
      delete appealObj.type
      
      appealObj.historic = JSON.stringify(appealObj.historic)

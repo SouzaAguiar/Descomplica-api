@@ -10,6 +10,8 @@ class Appeal extends Model {
     static boot () {
         super.boot()
         this.addHook('afterFetch','AppealHook.loadRelations' )
+        this.addHook('beforeSave','AppealHook.vehicleAndConductorStringfy' )
+        this.addHook('afterFetch','AppealHook.parseVehicleAndConductor' )
          
         }
 
@@ -19,12 +21,12 @@ class Appeal extends Model {
    appealsType(){
        return this.belongsTo('App/Models/AppealsType','typeId')
    }        
-    vehicle(){
-    return this.belongsTo('App/Models/Vehicle','vehicleId')
-}         
-   conductor(){
-    return this.belongsTo('App/Models/Conductor','conductorId')
-}   
+// //     vehicle(){
+// //     return this.belongsTo('App/Models/Vehicle','vehicleId')
+// // }         
+//    conductor(){
+//     return this.belongsTo('App/Models/Conductor','conductorId')
+// }   
 
 
 }

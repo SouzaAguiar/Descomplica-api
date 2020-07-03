@@ -132,10 +132,9 @@ class VehicleController {
     const vehicles = await user.vehicles().where('id',params.id).fetch()
     const [vehicle]= vehicles.rows
 
-   
   
-    
    return await vehicle.delete()
+   
  
 }
 }

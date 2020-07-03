@@ -62,10 +62,6 @@ const { identification, token } = params
 const TempName = name.split(' ');
 const [first_name,midName,last_name]= TempName
 
-//let last_name =temp_last_name.join()
-//last_name=last_name.replace(',',' ')
-
-//console.log(first_name)
 
 const customerData ={email,first_name,last_name,identification}
 
@@ -87,8 +83,10 @@ try {
   const resp = await  mercadopago.payment.create(payment)
  
   if(resp.response.status ==='approved'){
+  
     return {isSuccess:true,data:resp.response}
   }
+  
   return {isSuccess:false,data:{paymentStatus:resp.response.status}}
 } catch (error) {
   console.log(error)
@@ -159,7 +157,7 @@ async deleteCard(user,id){
    })
 
 if(payment_methodsName !== ''){
-  const url = getInstallmentsBaseApi +'payment_method_id='+ payment_methodsName +'&amount='+amount
+  const url = getInstallmentsBaseApi +'payment_method_id='+ payment_methodsName +'&amount='+parseFloat(amount)
 
   const { data } = await axios.get(url)
   return data[0].payer_costs

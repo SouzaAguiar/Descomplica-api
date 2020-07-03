@@ -10,6 +10,7 @@ class MessagesSchema extends Schema {
       table.integer('user_id').unsigned().references('id').inTable('users')
       table.string('message',1024).notNullable()
       table.boolean('hasRead').defaultTo(false)
+      table.string('title').notNullable()
       table.timestamps()
     })
   }

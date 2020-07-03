@@ -17,7 +17,7 @@
   async generatePdf(appeal,fileName){
   let anexosCount = 0;
 
-  console.log(appeal.contestations)
+  console.log(appeal)
   
   
       const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template,basePath:Helpers.tmpPath('uploads') })

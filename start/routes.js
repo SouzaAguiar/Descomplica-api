@@ -30,6 +30,11 @@ Route.post('/App/Params/init','AppParamController.appInitParams').middleware('au
 Route.post('/App/Params/deadline','AppParamController.upDateDeadLine').middleware('authAdmin')
 Route.get('/users','UserController.index').middleware('authAdmin')
 
+Route.get('/messages/all','MenssageController.getAllMessage').middleware('authAdmin')
+Route.put('/messages/setHasRead/:id','MenssageController.setHasRead').middleware('authAdmin')
+Route.get('/messages/getNotRead','MenssageController.getNotReadMessesages').middleware('authAdmin')
+
+
 Route.post('/user/admin','UserController.adminRegister').middleware('authAdmin').validator('StoreUser');
 Route.delete('/user/:id','UserController.delete').middleware('authAdmin')
 

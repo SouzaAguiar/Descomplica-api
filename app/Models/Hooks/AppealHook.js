@@ -9,8 +9,8 @@ AppealHook.loadRelations = async (appeals) => {
 
         const temp = appeal
         temp.user = await appeal.user().fetch();
-        temp.conductor = await appeal.conductor().fetch();
-        temp.vehicle = await appeal.vehicle().fetch();
+        // temp.conductor = await appeal.conductor().fetch();
+        // temp.vehicle = await appeal.vehicle().fetch();
         temp.type = await appeal.appealsType().fetch();
         temp.contestations = JSON.parse(temp.contestations)
         temp.signaturePath= await getDocumentPath(temp.signature_document_key)
@@ -29,3 +29,24 @@ async function getDocumentPath(key){
 
  return signed_file_url
 }
+
+
+AppealHook.vehicleAndConductorStringfy = async (appeal) => {
+   console.log(appeal.vehicle)
+   appeal.vehicle = JSON.stringify(appeal.vehicle)
+   appeal.conductor = JSON.stringify(appeal.conductor)
+   return appeal
+}
+
+AppealHook.parseVehicleAndConductor = async (appeals) => {
+   
+    return  await Promise.all( appeals.map( async appeal =>{
+       
+        appeal.vehicle = JSON.parse(appeal.vehicle)
+        appeal.conductor = JSON.parse(appeal.conductor)
+        return appeal
+
+    }))
+
+   
+ }

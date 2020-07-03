@@ -8,6 +8,12 @@
       <br><br>
     @endif   
 
+    @if(appeal.conductor.docmentImgUri)
+    <h3> Documento do condutor </h3>
+<img src="{{appeal.conductor.docmentImgUri}}"  style="width:80%">
+    <br><br>
+  @endif   
+
 
     @if(appeal.ticketPhotoUri)
       <h3> Foto da infração </h3>

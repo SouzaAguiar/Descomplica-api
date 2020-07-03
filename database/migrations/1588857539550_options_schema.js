@@ -12,6 +12,7 @@ class OptionsSchema extends Schema {
       table.string('attachment',1024).defaultTo('[]')
       table.string('inputName')
       table.enum('AttachmentInputType',['yes/no','textInput','imageInput','dataPiker'])
+      table.boolean('required').defaultTo(true)
       table.timestamps()
     })
   }

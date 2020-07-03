@@ -18,7 +18,7 @@ class AppealsSchema extends Schema {
       table.string('inconsistencies',2048)
       table.string('ticketPhotoUri').notNullable()
       table.string('signaturePath')
-      table.string('contestations',2048).notNullable()
+      table.string('contestations',8192).notNullable()
       table.string('paymentId').notNullable()
       table.string('paymentStatus').notNullable()
       table.string('description').notNullable()
@@ -26,6 +26,8 @@ class AppealsSchema extends Schema {
       table.string('historic',2048)
       table.boolean('hasRead').defaultTo(false)
       table.string('signature_document_key')
+      table.string('vehicle',1024)
+      table.string('conductor',1024)
       table.timestamps()
     })
   }
