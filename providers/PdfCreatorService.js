@@ -5,7 +5,7 @@
  const fs = require('fs').promises
  //const appeal = require('../appeal.json')
  const pdf = require('html-pdf');
- const options = { format: 'A4',border: "1in" };
+ const options = { format: 'A4',border: "1in",timeout: '100000' };
  const edge = require('edge.js')
  const Helpers = use('Helpers')
  edge.registerViews('../app/resources/views')
@@ -17,7 +17,7 @@
   async generatePdf(appeal,fileName){
   let anexosCount = 0;
 
-  console.log(appeal)
+  console.log(appeal.attchments)
   
   
       const html = edge.render('appeals/layout',{appeal,template:'appeals/'+appeal.type.template,basePath:Helpers.tmpPath('uploads') })

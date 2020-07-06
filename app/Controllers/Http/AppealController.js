@@ -28,18 +28,21 @@ class AppealController {
     async store({ request, auth, response }){
       
   
-     const { appeal } = request.only(['appeal'])
+     const { appeal, attchNames } = request.only(['appeal','attchNames'])
+  
     
       const appealObj = JSON.parse(appeal)
+     const  attchNamesObj = JSON.parse(attchNames)
       const user = await auth.user
-     
       const appealToPdf = appealObj
+ 
       appealToPdf.type = await ApealsTypes.find(appealToPdf.typeId)
  
       const {formal=[],material={} } = appealToPdf.contestations
- 
       delete  appealToPdf.contestations
+
       if(Object.keys(material).length !== 0){
+
         appealToPdf.contestations = [...formal,material]
       }else{
         appealToPdf.contestations = [...formal]
@@ -55,6 +58,20 @@ class AppealController {
       } catch (error) {
         response.status(400).send('ticketImage upload Error')
       }
+
+      if(attchNamesObj){
+
+       
+        const  attchments = await Promise.all( 
+          attchNamesObj.map( async name =>{
+       
+          const attchFile = request.file(name,{type:['image'],size:'6mb'})
+          return  await UploadSevice.upload(attchFile) 
+        
+        })
+        )
+         appealToPdf.attchments = attchments
+      }
       
 
    
@@ -63,23 +80,21 @@ class AppealController {
       
       
     const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
-   
-       await PdfCreator.generatePdf(appealToPdf,appealName)
-       appealObj.fileName = appealName
-       
-    appealObj.vehicleId = appealObj.vehicle.id
-    appealObj.conductorId = appealObj.conductor.id
     
+     await PdfCreator.generatePdf(appealToPdf,appealName)
+     appealObj.fileName = appealName
+       
+     appealObj.vehicleId = appealObj.vehicle.id
+     appealObj.conductorId = appealObj.conductor.id
      appealObj.contestations = JSON.stringify(appealObj.contestations)
+
      delete appealObj.user
      delete appealObj.type
+     delete appealObj.attchments
      
      appealObj.historic = JSON.stringify(appealObj.historic)
  
       await user.appeals().create(appealObj)
-     
-   
-   
      
 }
 
@@ -89,10 +104,10 @@ async getAll(){
     
 }
 
-  async index({auth}){
+  async index({ auth }){
+
   const  user = auth.user
   const appeals= await user.appeals().fetch()
-
   const data = await Promise.all( appeals.rows.map(async(i)=>{
   const item = i
 

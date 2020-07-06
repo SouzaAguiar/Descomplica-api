@@ -21,14 +21,15 @@
       <br><br>
     @endif   
 
-    @if(appeal.attachments)
+ @if(appeal.attchments)
+
     <h3> Anexos</h3>
-  @each(attachments in appeal.attachments)
-<img src="{{attachments}}"style="width:80%">
-  <h1> Anexo {{ ($loop.index + 1) }}</h1>
+  @each(attchment in appeal.attchments)
+   <img src="{{attchment}}"style="width:80%">
+   <h3> Anexo- {{ ($loop.index + 1) }} </h3>
 @endeach
     <br><br>
-  @endif   
+ @endif   
 
 
 </div>
