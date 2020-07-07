@@ -32,9 +32,14 @@ async function getDocumentPath(key){
 
 
 AppealHook.vehicleAndConductorStringfy = async (appeal) => {
-   console.log(appeal.vehicle)
+  
+  
    appeal.vehicle = JSON.stringify(appeal.vehicle)
    appeal.conductor = JSON.stringify(appeal.conductor)
+   appeal.contestations = JSON.stringify(appeal.contestations)
+   appeal.signaturePath =''
+   
+   
    return appeal
 }
 

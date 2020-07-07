@@ -26,7 +26,7 @@ class AppealController {
    * @param {View} ctx.view
    */
     async store({ request, auth, response }){
-      
+      console.log('aqui')
   
      const { appeal, attchNames } = request.only(['appeal','attchNames'])
   
@@ -59,7 +59,7 @@ class AppealController {
         response.status(400).send('ticketImage upload Error')
       }
 
-      if(attchNamesObj){
+      if(attchNamesObj.length !== 0){
 
        
         const  attchments = await Promise.all( 
@@ -90,7 +90,10 @@ class AppealController {
 
      delete appealObj.user
      delete appealObj.type
-     delete appealObj.attchments
+     if(appealObj.attchments){
+      delete appealObj.attchments
+     }
+     
      
      appealObj.historic = JSON.stringify(appealObj.historic)
  
@@ -121,6 +124,25 @@ async getAll(){
   
 }
 async update({params,auth,request}){
+  
+  const data = request.all()
+  
+
+   delete data.tableData
+   delete data.appealPdfFilePath
+   delete data.user
+   delete data.type
+  
+  const appeal = await Appeal.findOrFail(params.id)
+ 
+  appeal.merge(data)
+   await appeal.save()
+   return true
+  
+
+
+
+
   // const user = await auth.user
   // const appeals = await user.appeals().where('id',params.id).fetch()
   // const [ appeal ]= appeals.rows

@@ -21,12 +21,7 @@ class Appeal extends Model {
    appealsType(){
        return this.belongsTo('App/Models/AppealsType','typeId')
    }        
-// //     vehicle(){
-// //     return this.belongsTo('App/Models/Vehicle','vehicleId')
-// // }         
-//    conductor(){
-//     return this.belongsTo('App/Models/Conductor','conductorId')
-// }   
+  
 
 
 }
