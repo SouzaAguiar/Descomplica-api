@@ -38,12 +38,12 @@ class MenssageController {
    */
   async store ({ request, auth }) {
     const { message,title }= request.only(['message','title'])
-     const user = await auth.user
+    const user = await auth.user
    await user.messages().create({menssage:message,title })
    console.log(message)
    await Mail.send(
     "emails.userMessage",
-    { message,title },
+    { message,title,name:user.name,email:user.email },
     Tempmessage => {
       Tempmessage
         .to('recorrepramim@gmail.com')

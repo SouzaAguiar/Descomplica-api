@@ -10,7 +10,7 @@ const  ApealsTypes = use('App/Models/AppealsType');
 const UploadSevice = use('Adonis/Services/UploadImage')
 
 const PdfCreator = use('Adonis/Services/PdfCreator')
-
+const Helpers = use('Helpers')
 
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -81,9 +81,11 @@ class AppealController {
       
     const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
     
-     await PdfCreator.generatePdf(appealToPdf,appealName)
-     appealObj.fileName = appealName
-       
+     await PdfCreator.generatePdf(appealToPdf,appealName,UploadSevice)
+    //  const SavedfileName = await UploadSevice.uploadFileByPath(Helpers.tmpPath(`uploads/${appealName}`))
+    // console.log(SavedfileName)
+     appealObj.fileName = appealName 
+
      appealObj.vehicleId = appealObj.vehicle.id
      appealObj.conductorId = appealObj.conductor.id
      appealObj.contestations = JSON.stringify(appealObj.contestations)
@@ -100,6 +102,7 @@ class AppealController {
       await user.appeals().create(appealObj)
      
 }
+
 
 async getAll(){
 
@@ -123,7 +126,7 @@ async getAll(){
  return data
   
 }
-async update({params,auth,request}){
+async update({params,request}){
   
   const data = request.all()
   

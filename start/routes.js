@@ -1,7 +1,7 @@
 'use strict'
 const pdf =  use('Adonis/Services/PdfCreator')
 const Helpers = use('Helpers')
-const UploadSevice = use('Adonis/Services/UploadImage')
+// const UploadSevice = use('Adonis/Services/UploadImage')
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -26,6 +26,7 @@ Route.post('/register','UserController.register').validator('StoreUser');
 
 
 Route.post('/App/Params/price','AppParamController.upDatePrice').middleware('authAdmin')
+Route.post('/App/Params/update','AppParamController.update').middleware('authAdmin')
 Route.post('/App/Params/init','AppParamController.appInitParams').middleware('authAdmin')
 Route.post('/App/Params/deadline','AppParamController.upDateDeadLine').middleware('authAdmin')
 Route.get('/users','UserController.index').middleware('authAdmin')
@@ -111,8 +112,8 @@ Route.get('/', () => {
     return {'Descomplica api':'Bem vindo!'}
   });
  
-   
-  Route.get('/pdf',() =>{
-    UploadSevice.upload({})
-    return {'result':'ok'}
-  })
+  Route.post('/pdf','AppealController.teste') 
+  // Route.get('/pdf',() =>{
+  // UploadSevice.teste('teste')
+    // return {'result':'ok'}
+  // })

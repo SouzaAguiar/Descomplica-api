@@ -34,6 +34,15 @@ class AppParamController {
         return await AppParams.findBy('id',1)
     }
 
+    async update({ request }){
+
+        const data = request.all();
+        const param = await AppParams.find(data.id)
+        param.merge(data)
+       return await  param.save()
+
+    }
+
 
 }
 
