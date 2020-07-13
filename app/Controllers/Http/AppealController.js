@@ -82,8 +82,7 @@ class AppealController {
     const appealName = `${Date.now().toString()}-${appealToPdf.conductor.conductor_docment_number}.pdf`
     
      await PdfCreator.generatePdf(appealToPdf,appealName,UploadSevice)
-    //  const SavedfileName = await UploadSevice.uploadFileByPath(Helpers.tmpPath(`uploads/${appealName}`))
-    // console.log(SavedfileName)
+    
      appealObj.fileName = appealName 
 
      appealObj.vehicleId = appealObj.vehicle.id

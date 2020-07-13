@@ -54,7 +54,7 @@ class VehicleController {
     const vehicleObject = JSON.parse(vehicle)
     const user = await auth.user
 
-    const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'4mb'})
+    const  vehicleDocImage = request.file('vehicleDocImage',{type:['image'],size:'6mb'})
     const  vehicleDocImagePath = await UploadSevice.upload(vehicleDocImage)
 
     vehicleObject.url_img_docment = vehicleDocImagePath;
