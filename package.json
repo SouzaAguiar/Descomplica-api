@@ -30,7 +30,7 @@
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/vow": "^1.0.17",
     "@google-cloud/storage": "^4.3.1",
-    "aws-sdk": "^2.684.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.19.2",
     "creditcard.js": "^2.1.6",
     "date-fns": "^2.9.0",
